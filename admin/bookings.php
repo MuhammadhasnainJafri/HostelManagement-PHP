@@ -3,6 +3,7 @@
     include('../includes/dbconn.php');
     include('../includes/check-login.php');
     check_login();
+    //code for registration
     if(isset($_POST['submit'])){
         $roomno=$_POST['room'];
         $seater=$_POST['seater'];
@@ -32,7 +33,7 @@
         $stmt = $mysqli->prepare($query);
         $rc=$stmt->bind_param('iiiisissssssisissississi',$roomno,$seater,$feespm,$foodstatus,$stayfrom,$duration,$course,$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cpincode,$paddress,$pcity,$ppincode);
         $stmt->execute();
-        echo"<script>alert('Requested Student Has Been Registered!');</script>";
+        echo"<script>alert('Success: Booked!');</script>";
     }
 ?>
 
@@ -89,31 +90,43 @@
             <div class="lds-pos"></div>
         </div>
     </div>
-    
+   
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-    
+        
         <header class="topbar" data-navbarbg="skin6">
-            <?php include '../includes/student-navigation.php'?>
+            <?php include 'includes/navigation.php'?>
         </header>
         
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-sidebarbg="skin6">
-                <?php include '../includes/student-sidebar.php'?>
+                <?php include 'includes/sidebar.php'?>
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-      
+       
         <div class="page-wrapper">
             
-          
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                    <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Hostel Bookings</h4>
+                        <div class="d-flex align-items-center">
+                            <!-- <nav aria-label="breadcrumb">
+                                
+                            </nav> -->
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+           
             <div class="container-fluid">
-                
-                <form method="POST">
+
+            <form method="POST">
                 
                 <?php
-                    $uid=$_SESSION['login'];
                     $stmt=$mysqli->prepare("SELECT emailid FROM registration WHERE emailid=? ");
                     $stmt->bind_param('s',$uid);
                     $stmt->execute();
@@ -122,7 +135,7 @@
                     $stmt->close();
 
                     if($rs){ ?>
-                    <div class="alert alert-primary alert-dismissible bg-danger text-white border-0 fade show"
+                    <div class="alert alert-primary alert-dismissible bg-primary text-white border-0 fade show"
                         role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -136,9 +149,7 @@
 				?>	
 
 
-                <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Hostel Bookings</h4>
-                    </div>
+             
 
                 
                 <div class="row">
@@ -273,24 +284,13 @@
 
                 <div class="row">
 
-                <?php	
-                $aid=$_SESSION['id'];
-                    $ret="select * from userregistration where id=?";
-                        $stmt= $mysqli->prepare($ret) ;
-                    $stmt->bind_param('i',$aid);
-                    $stmt->execute();
-                    $res=$stmt->get_result();
-
-                    while($row=$res->fetch_object())
-                    {
-                        ?>
                 
                     <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Registration Number</h4>
                                         <div class="form-group">
-                                            <input type="text" name="regno" id="regno" value="<?php echo $row->regNo;?>" class="form-control" readonly>
+                                            <input type="text" name="regno" id="regno" placeholder="Enter registration number" class="form-control" required>
                                         </div>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">First Name</h4>
                                     <div class="form-group">
-                                        <input type="text" name="fname" id="fname" value="<?php echo $row->firstName;?>" class="form-control" readonly>
+                                        <input type="text" name="fname" id="fname" placeholder="Enter first name" class="form-control" required>
                                     </div>
                             </div>
                         </div>
@@ -314,7 +314,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Middle Name</h4>
                                     <div class="form-group">
-                                        <input type="text" name="mname" id="mname" value="<?php echo $row->middleName;?>" class="form-control" readonly>
+                                        <input type="text" name="mname" id="mname" placeholder="Enter middle name" class="form-control" required>
                                     </div>
                             </div>
                         </div>
@@ -326,7 +326,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Last Name</h4>
                                     <div class="form-group">
-                                        <input type="text" name="lname" id="lname" value="<?php echo $row->lastName;?>" class="form-control" readonly>
+                                        <input type="text" name="lname" id="lname" placeholder="Enter last name" class="form-control" required>
                                     </div>
                             </div>
                         </div>
@@ -338,7 +338,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Email</h4>
                                     <div class="form-group">
-                                        <input type="email" name="email" id="email" value="<?php echo $row->email;?>" class="form-control" readonly>
+                                        <input type="email" name="email" id="email" placeholder="Enter email address" class="form-control" required>
                                     </div>
                             </div>
                         </div>
@@ -350,7 +350,12 @@
                             <div class="card-body">
                                 <h4 class="card-title">Gender</h4>
                                     <div class="form-group">
-                                        <input type="text" name="gender" id="gender" value="<?php echo $row->gender;?>" class="form-control" readonly>
+                                    <select name="gender" class="form-control" required="required">
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="others">Others</option>
+                                    </select>
                                     </div>
                             </div>
                         </div>
@@ -362,20 +367,20 @@
                             <div class="card-body">
                                 <h4 class="card-title">Contact Number</h4>
                                     <div class="form-group">
-                                        <input type="number" name="contact" id="contact" value="<?php echo $row->contactNo;?>" class="form-control" readonly>
+                                        <input type="number" name="contact" id="contact" placeholder="Enter contact number" class="form-control" required>
                                     </div>
                             </div>
                         </div>
                     </div>
 
-                    <?php }?>
+
 
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Emergency Contact Number</h4>
                                     <div class="form-group">
-                                        <input type="number" name="econtact" id="econtact" class="form-control" required>
+                                        <input type="number" name="econtact" id="econtact" placeholder="Enter emergency contact number" class="form-control" required>
                                     </div>
                             </div>
                         </div>
@@ -570,13 +575,13 @@
                 </form>
 
             </div>
-           
+       
             <?php include '../includes/footer.php' ?>
            
         </div>
        
     </div>
-  
+    
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -595,10 +600,7 @@
     <script src="../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>
 
-
-</body>
-
-
+    <!-- Custom Ft. Script Lines -->
 <script type="text/javascript">
 	$(document).ready(function(){
         $('input[type="checkbox"]').click(function(){
@@ -646,5 +648,7 @@
 
     })});
     </script>
+
+</body>
 
 </html>
