@@ -4,10 +4,9 @@
     include('../includes/check-login.php');
     check_login();
 
-    if(isset($_GET['del']))
-    {
+    if(isset($_GET['del'])) {
         $id=intval($_GET['del']);
-        $adn="DELETE from rooms where id=?";
+        $adn="DELETE from  hostel_owner where id=?";
             $stmt= $mysqli->prepare($adn);
             $stmt->bind_param('i',$id);
             $stmt->execute();
@@ -28,7 +27,8 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <title>Hostel Management System</title>
+    <title>Manage hostel owners</title>
+   
     <!-- Custom CSS -->
     <link href="../assets/extra-libs/c3/c3.min.css" rel="stylesheet">
     <link href="../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
@@ -37,24 +37,34 @@
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
 
+    <script language="javascript" type="text/javascript">
+    var popUpWin=0;
+    function popUpWindow(URLStr, left, top, width, height){
+        if(popUpWin) {
+         if(!popUpWin.closed) popUpWin.close();
+            }
+            popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,copyhistory=yes,width='+510+',height='+430+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
+        }
+    </script>
+
 </head>
 
 <body>
-   
+    
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
-   
+    
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
        
         <header class="topbar" data-navbarbg="skin6">
             <?php include 'includes/navigation.php'?>
         </header>
-       
+        
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-sidebarbg="skin6">
@@ -62,25 +72,25 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-       
+        
         <div class="page-wrapper">
             
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Rooms Management</h4>
+                    <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Manage Hostel Owner</h4>
+                    
                         <div class="d-flex align-items-center">
                             <!-- <nav aria-label="breadcrumb">
                                 
                             </nav> -->
-                            
                         </div>
                     </div>
+                    <button type="button" class="btn btn-success float-right m-auto"onclick="window.location.href='add_owner.php'">Add Owner</button>
                     
                 </div>
-
             </div>
-          
+            
             <div class="container-fluid">
 
                 <!-- Table Starts -->
@@ -88,58 +98,48 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                            <a href="add-rooms.php"><button type="button" class="btn btn-block btn-md btn-success">Add New Room Details</button></a>
-                            <hr>
+                                <h6 class="card-subtitle">Displaying all the registered students list.</h6>
                                 <div class="table-responsive">
                                     <table id="zero_config" class="table table-striped table-hover table-bordered no-wrap">
                                     <thead class="thead-dark">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Room No.</th>
-                                                <th>Seater</th>
-                                                <th>Hostel</th>
-                                                <th>Fees Per Month</th>
-                                                <th>Published On</th>
+                                                <th>Owner Name</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>address</th>
+                                        
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php	
-                                            $aid=$_SESSION['id'];
-                                            $ret="SELECT * from rooms";
-                                            $stmt= $mysqli->prepare($ret) ;
-                                            //$stmt->bind_param('i',$aid);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                                {
-                                                    ?>
+                                        $aid=$_SESSION['id'];
+                                        $ret="SELECT * from  hostel_owner";
+                                        $stmt= $mysqli->prepare($ret) ;
+                                        $stmt->execute() ;//ok
+                                        $res=$stmt->get_result();
+                                        $cnt=1;
+                                        while($row=$res->fetch_object())
+                                            {
+                                                ?>
                                         <tr><td><?php echo $cnt;;?></td>
-                                        <td><?php echo $row->room_no;?></td>
-                                        <td><?php echo $row->seater;?></td>
+                                        <td><?php echo $row->username;?></td>
+                                    
+                                        <td><?php echo $row->email;?></td>
+                                        <td><?php echo $row->phone_no;?></td>
+                                        <td><?php echo $row->address;?></td>
+                                        
                                         <td>
-<?php 
-                                            $hostel="SELECT * from pm_hotel where id='$row->hostel_id'";
-                                       
-                                            $resulthostel=mysqli_query($mysqli, $hostel);
-                                           if($resulthostel){
-                                            print_r($resulthostel->fetch_assoc()['title']);
-                                           }
-
-?>
-
-
-                                        </td>
-                                        <td>$<?php echo $row->fees;?></td>
-                                        <td><?php echo $row->posting_date;?></td>
-                                        <td><a href="edit-room.php?id=<?php echo $row->id;?>" title="Edit"><i class="icon-note"></i></a>&nbsp;&nbsp;
-                                        <a href="manage-rooms.php?del=<?php echo $row->id;?>" title="Delete" onclick="return confirm("Do you want to delete");"><i class="icon-close" style="color:red;"></i></a></td>
+                                        <a href="edit-owner.php?id=<?php echo $row->id;?>" title="View Full Details"><i class="icon-size-fullscreen"></i></a>&nbsp;&nbsp;
+                                        <a href="hostel-owner.php?del=<?php echo $row->id;?>" title="Delete Record" onclick="return confirm("Do you want to delete");"><i class="icon-close" style="color:red;"></i></a></td>
                                         </tr>
                                             <?php
-                                                $cnt=$cnt+1;
+                                        $cnt=$cnt+1;
                                             } ?>
-									    </tbody>
+											
+										
+									</tbody>
                                     </table>
                                 </div>
                             </div>
@@ -150,13 +150,13 @@
                 <!-- Table Ends -->
 
             </div>
-           
+            
             <?php include '../includes/footer.php' ?>
-           
+            
         </div>
-      
+       
     </div>
-    
+   
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>

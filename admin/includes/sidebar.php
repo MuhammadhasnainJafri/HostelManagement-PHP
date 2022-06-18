@@ -15,6 +15,12 @@
         aria-expanded="false"><i class="fas fa-user-plus"></i><span
         class="hide-menu">Register Student</span></a></li>
 
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="hostel-owner.php"
+        aria-expanded="false"><i class="fas fa-user-plus"></i><span
+        class="hide-menu">Manage Hostel Owner</span></a></li>
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-hostel.php"
+        aria-expanded="false"><i class="fas fa-user-plus"></i><span
+        class="hide-menu">Manage Hostels</span></a></li>
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="view-students-acc.php"
         aria-expanded="false"><i class="fas fa-user-circle"></i><span
         class="hide-menu">View Student Acc.</span></a></li>
