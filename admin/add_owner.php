@@ -6,10 +6,10 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $phone_no = $_POST['phone_no'];
     $address = $_POST['address'];
-    $hostel_id = $_POST['hostel_id'];
+    $hostel_id = NULL;
     $password = $_POST['password'];
     $password = md5($password);
-    $query = "INSERT into hostel_owner(`username`, `email`, `password`, `hostel_id`, `phone_no`, `address`) values('$username','$email','$password','$hostel_id','$phone_no','$address')";
+    $query = "INSERT into hostel_owner(`username`, `email`, `password`, `phone_no`, `address`) values('$username','$email','$password','$phone_no','$address')";
     if (mysqli_query($mysqli, $query)) {
     }else{
 
@@ -183,38 +183,7 @@ if (isset($_POST['submit'])) {
                         </div>
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-
-
-
-                                    <h4 class="card-title">Hostel</h4>
-                                    <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" name="hostel_id" required="required">
-
-                                        <?php 
-                                         $ret="SELECT * from pm_hotel;";
-                                         $stmt= $mysqli->prepare($ret) ;
-                                         $stmt->execute() ;//ok
-                                         $res=$stmt->get_result();
-                                         $cnt=1;
-                                         while($row=$res->fetch_object())
-                                             {
-                                        ?>
-                                            <option selected>Choose...</option>
-                                            <option value="<?php echo $row->id;?>"><?php echo $row->title;?></option>
-                                           
-
-                                            <?php 
-                                             }
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                       
 
 
 

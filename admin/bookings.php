@@ -2,10 +2,12 @@
     session_start();
     include('../includes/dbconn.php');
     include('../includes/check-login.php');
+    $error="";
     check_login();
     //code for registration
     if(isset($_POST['submit'])){
         $roomno=$_POST['room'];
+        $hostel_id= $_POST['hostel_id'];
         $seater=$_POST['seater'];
         $feespm=$_POST['fpm'];
         $foodstatus=$_POST['foodstatus'];
@@ -29,9 +31,10 @@
         $paddress=$_POST['paddress'];
         $pcity=$_POST['pcity'];
         $ppincode=$_POST['ppincode'];
-        $query="INSERT into  registration(roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresPincode,pmntAddress,pmntCity,pmntPincode) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        
+        $query="INSERT into  registration(roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresPincode,pmntAddress,pmntCity,pmntPincode,hostel_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($query);
-        $rc=$stmt->bind_param('iiiisissssssisissississi',$roomno,$seater,$feespm,$foodstatus,$stayfrom,$duration,$course,$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cpincode,$paddress,$pcity,$ppincode);
+        $rc=$stmt->bind_param('iiiisissssssisissississis',$roomno,$seater,$feespm,$foodstatus,$stayfrom,$duration,$course,$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cpincode,$paddress,$pcity,$ppincode,$hostel_id);
         $stmt->execute();
         echo"<script>alert('Success: Booked!');</script>";
     }
@@ -155,22 +158,66 @@
                 <div class="row">
 
 
-                    <div class="col-sm-12 col-md-6 col-lg-4">
+
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+
+
+
+                                    <h4 class="card-title">Hostel</h4>
+                                    <h5 class="h5 text-danger">
+                                        <?php
+                                                        echo $error;
+                                                                ?></h5>
+                                    <div class="form-group mb-4">
+                                        <select class="custom-select mr-sm-2" onchange="updateroom(this.value)" id="hostel_id" name="hostel_id" required="required">
+                                            <option value="0" selected>Choose...</option>
+                                            <?php
+                                            $ret = "SELECT * from pm_hotel;";
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            $cnt = 1;
+                                            while ($row = $res->fetch_object()) {
+                                            ?>
+
+                                                <option value="<?php echo $row->id; ?>"><?php echo $row->title; ?></option>
+
+
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+<script>
+function updateroom(value){
+var hostel_id=document.getElementById('hostel_id').value;
+document.getElementById("room").innerHTML = "";
+const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("room").innerHTML = this.responseText;
+    }
+  xhttp.open("GET", "roomdata.php?hostel_id="+value, true);
+  xhttp.send();
+}
+</script>
+
+
+
+
+                    <div class="col-sm-12 col-md-6 col-lg-4" id="roomdiv">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Room Number</h4>
                                     <div class="form-group mb-4">
                                         <select class="custom-select mr-sm-2" name="room" id="room" onChange="getSeater(this.value);" onBlur="checkAvailability()" required id="inlineFormCustomSelect">
-                                            <option selected>Select...</option>
-                                            <?php $query ="SELECT * FROM rooms";
-                                            $stmt2 = $mysqli->prepare($query);
-                                            $stmt2->execute();
-                                            $res=$stmt2->get_result();
-                                            while($row=$res->fetch_object())
-                                            {
-                                            ?>
-                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->room_no;?></option>
-                                            <?php } ?>
+                                            
+                                            
                                         </select>
                                         <span id="room-availability-status" style="font-size:12px;"></span>
                                     </div>
@@ -241,7 +288,7 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio1" value="1" name="foodstatus"
                                         class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio1">Required <code>Extra $211 Per Month</code></label>
+                                    <label class="custom-control-label" for="customRadio1">Required <code>Extra RS 6000 Per Month</code></label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio2" value="0" name="foodstatus"

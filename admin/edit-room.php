@@ -21,23 +21,7 @@ $error="";
 ?>
 
 
-<?php 
 
-
-    $id=1;
-    $sql="SELECT * FROM `pm_hotel`  where `id`='$id'";
-    $result=mysqli_query($mysqli,$sql);
-   
-    if($result){
-        // print_r($result->fetch_assoc());
-        if($result->fetch_assoc()['admin_id']!=NULL){
-                echo "1";
-        }else{
-           echo "null";
-        }
-    }
-exit;
-?>
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">

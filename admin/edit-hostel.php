@@ -1,8 +1,12 @@
 <?php
 session_start();
 include('../includes/dbconn.php');
+$id="";
+if(isset($_GET['id'])){
+    $id=$_GET['id'];
+}
 if (isset($_POST['submit'])) {
-    $admin_id = $_POST['admin_id'];
+    // $admin_id = $_POST['admin_id'];
     $title = $_POST['title'];
     $subtitle = $_POST['subtitle'];
     $address = $_POST['address'];
@@ -10,59 +14,16 @@ if (isset($_POST['submit'])) {
     $lng = $_POST['lng'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $id=$_POST['id'];
+    $query="UPDATE `pm_hotel` SET `title`='$title',`subtitle`='$subtitle',`address`='$address'
+    ,`lat`='$lat',`lng`=' $lng',`email`= '$email',`phone`='$phone'  WHERE `id`='$id'";
+ 
     
-    $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`) VALUES ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone')";
-    
-    
-
-
-$owner="Select * from hostel_owner where id='$admin_id'";
-$oresult=mysqli_query($mysqli, $owner);
-if($oresult)
-{
-    if($oresult->fetch_assoc()['hostel_id']==NULL){
-        if (mysqli_query($mysqli, $query)) {
-            $last_id = $mysqli->insert_id;
-    echo $last_id;
-        $sql="UPDATE `hostel_owner` SET `hostel_id`='$last_id' where `id`='$admin_id'";
-        $result=mysqli_query($mysqli,$sql);
-        }else{
-             
-            mysqli_error($mysqli);
-            
-        ?>
-        <script>
-    
-            alert('<?php 
-            mysqli_error($mysqli);
-            ?>');
-        </script>
-        
-        <?php 
-        
-        }
-     
-        echo "<script>alert('hostel has been Registered!');</script>";
-        header("Location:manage-hostel.php");
-
-
-
-
-
-    }else{
-
-header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
-
-
-
-
-
+    if (mysqli_query($mysqli, $query)) {
+    header("Location:manage-hostel.php");
     }
-}    
-    exit;
-    
-    
-    
+
+
 }
 ?>
 
@@ -142,17 +103,25 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
             <div class="container-fluid">
 
                 <form method="POST" name="registration" onSubmit="return valid();">
-
+<input type="hidden" name="id" value="<?php echo $id ?>">
                     <div class="row">
 
-
+<?php 
+ $ret="SELECT * from pm_hotel WHERE id ='$id';";
+ $stmt= $mysqli->prepare($ret) ;
+ $stmt->execute() ;//ok
+ $res=$stmt->get_result();
+ $result=$res->fetch_assoc();
+?>
 
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">hostel title</h4>
                                     <div class="form-group">
-                                        <input type="text" name="title" placeholder="Enter hostel title" id="regno" class="form-control" required>
+                                        <input type="text" name="title" value="<?php 
+                                        echo $result['title'];
+                                        ?>" placeholder="Enter hostel title" id="regno" class="form-control" required>
                                     </div>
 
                                 </div>
@@ -163,7 +132,9 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                 <div class="card-body">
                                     <h4 class="card-title">Register hostel email</h4>
                                     <div class="form-group">
-                                        <input type="text" name="email" placeholder="Enter hostel email" id="regno" class="form-control" required>
+                                        <input type="text" name="email" value="<?php 
+                                        echo $result['email'];
+                                        ?>" placeholder="Enter hostel email" id="regno" class="form-control" required>
                                     </div>
 
                                 </div>
@@ -174,7 +145,9 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                 <div class="card-body">
                                     <h4 class="card-title">Hostel Phone Number</h4>
                                     <div class="form-group">
-                                        <input type="text" name="phone" placeholder="Enter hostel Phone Number" id="regno" class="form-control" required>
+                                        <input type="text" name="phone"  value="<?php 
+                                        echo $result['phone'];
+                                        ?>" placeholder="Enter hostel Phone Number" id="regno" class="form-control" required>
                                     </div>
 
                                 </div>
@@ -188,7 +161,11 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                 <div class="card-body">
                                     <h4 class="card-title">subtitle</h4>
                                     <div class="form-group">
-                                        <input type="text" name="subtitle" placeholder="Enter hostel subtitle" required class="form-control">
+                                        <input type="text" name="subtitle"
+                                        value="<?php 
+                                        echo $result['subtitle'];
+                                        ?>"
+                                         placeholder="Enter hostel subtitle" required class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +177,9 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                 <div class="card-body">
                                     <h4 class="card-title">address</h4>
                                     <div class="form-group">
-                                        <input type="text" name="address"  placeholder="Enter hostel address" required="required" class="form-control">
+                                        <input type="text" name="address"  value="<?php 
+                                        echo $result['address'];
+                                        ?>"  placeholder="Enter hostel address" required="required" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +192,9 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                 <div class="card-body">
                                     <h4 class="card-title">Hostel Latitude</h4>
                                     <div class="form-group">
-                                        <input type="text" name="lat"  placeholder="Enter Hostel latitude" required class="form-control">
+                                        <input type="text" name="lat"  value="<?php 
+                                        echo $result['lat'];
+                                        ?>"  placeholder="Enter Hostel latitude" required class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +205,9 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                 <div class="card-body">
                                     <h4 class="card-title">Hostel Longitude</h4>
                                     <div class="form-group">
-                                        <input type="text" name="lng"  placeholder="Enter Hostel Longitude" required class="form-control">
+                                        <input type="text" name="lng"  value="<?php 
+                                        echo $result['lng'];
+                                        ?>"  placeholder="Enter Hostel Longitude" required class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -233,38 +216,7 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                         
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-
-
-
-                                    <h4 class="card-title">Hostel Owner (<a href="add_owner.php" class="text-danger" style="font-size: 12px" >add new Owner</a>)</h4>
-                                    
-                                    <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" name="admin_id" required="required">
-                                        <?php 
-                                         $ret="SELECT * from hostel_owner;";
-                                         $stmt= $mysqli->prepare($ret) ;
-                                         $stmt->execute() ;//ok
-                                         $res=$stmt->get_result();
-                                         $cnt=1;
-                                         while($row=$res->fetch_object())
-                                             {
-                                        ?>
-                                            
-                                            <option value="<?php echo $row->id;?>"><?php echo $row->username;?></option>
-                                           
-
-                                            <?php 
-                                             }
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        
 
 
 
@@ -281,8 +233,8 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
 
                     <div class="form-actions">
                         <div class="text-center">
-                            <button type="submit" name="submit" class="btn btn-success">Register</button>
-                            <button type="reset" class="btn btn-danger">Reset</button>
+                            <button type="submit" name="submit" class="btn btn-success">Update</button>
+                           
                         </div>
                     </div>
 
