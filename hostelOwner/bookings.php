@@ -4,6 +4,8 @@
     include('../includes/check-login.php');
     $error="";
     check_login();
+    $hid="";
+    $owner_id=$_SESSION['id'];
     //code for registration
     if(isset($_POST['submit'])){
         $roomno=$_POST['room'];
@@ -87,12 +89,12 @@
 
 <body>
    
-    <div class="preloader">
+    <!-- <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
-    </div>
+    </div> -->
    
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
@@ -171,8 +173,8 @@
                                                         echo $error;
                                                                 ?></h5>
                                     <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" onchange="updateroom(this.value)" id="hostel_id" name="hostel_id" required="required">
-                                            <option value="0" selected>Choose...</option>
+                                        <select class="custom-select mr-sm-2" id="hostel_id" name="hostel_id" required="required">
+                                          
                                             <?php
                                             $ret = "SELECT * from pm_hotel;";
                                             $stmt = $mysqli->prepare($ret);
@@ -180,13 +182,16 @@
                                             $res = $stmt->get_result();
                                             $cnt = 1;
                                             while ($row = $res->fetch_object()) {
+                                                if($row->admin_id==$owner_id){
+                                                    $hid=$row->id;
                                             ?>
-
-                                                <option value="<?php echo $row->id; ?>"><?php echo $row->title; ?></option>
+                                                    
+                                                <option value="<?php echo $row->id; ?>" selected><?php echo $row->title; ?></option>
 
 
                                             <?php
                                             }
+                                        }
                                             ?>
                                         </select>
                                     </div>
@@ -194,18 +199,7 @@
                                 </div>
                             </div>
                         </div>
-<script>
-function updateroom(value){
-var hostel_id=document.getElementById('hostel_id').value;
-document.getElementById("room").innerHTML = "";
-const xhttp = new XMLHttpRequest();
-  xhttp.onload = function() {
-    document.getElementById("room").innerHTML = this.responseText;
-    }
-  xhttp.open("GET", "roomdata.php?hostel_id="+value, true);
-  xhttp.send();
-}
-</script>
+
 
 
 
@@ -216,8 +210,19 @@ const xhttp = new XMLHttpRequest();
                                 <h4 class="card-title">Room Number</h4>
                                     <div class="form-group mb-4">
                                         <select class="custom-select mr-sm-2" name="room" id="room" onChange="getSeater(this.value);" onBlur="checkAvailability()" required id="inlineFormCustomSelect">
-                                            
-                                            
+                                            <?php 
+                                             
+                                             $query = "SELECT * FROM `rooms` where `hostel_id` = '$hid'";
+                                             $stmt2 = $mysqli->prepare($query);
+                                             $stmt2->execute();
+                                             $res = $stmt2->get_result();
+                                             echo "<option selected>Select...</option>";
+                                             while ($row = $res->fetch_object()) {
+                                             ?>
+                                                 <option value="<?php echo $row->room_no; ?>"> <?php echo $row->room_no; ?></option>
+                                             <?php } 
+                                             
+                                             ?>
                                         </select>
                                         <span id="room-availability-status" style="font-size:12px;"></span>
                                     </div>

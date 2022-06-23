@@ -11,9 +11,9 @@
 
         <li class="nav-small-cap"><span class="hide-menu">Features</span></li>
                             
-        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="book-hostel.php"
+        <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="book-hostel.php"
         aria-expanded="false"><i class="fas fa-h-square"></i><span
-        class="hide-menu">Book Hostel</span></a></li>
+        class="hide-menu">Book Hostel</span></a></li> -->
 
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="room-details.php"
         aria-expanded="false"><i class="fas fa-bed"></i><span

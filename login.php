@@ -107,7 +107,8 @@
                                     <button type="submit" name="login" class="btn btn-block btn-dark">LOGIN</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                   <a href="admin/index.php" class="text-danger">Go to Admin Panel</a>
+                                   <a href="admin/index.php" class="text-danger">Go to Admin Panel</a><br>
+                                   <a href="hostelowner/index.php" class="text-danger">Go to hostel Owner Panel</a>
                                 </div>
                             </div>
                         </form>
