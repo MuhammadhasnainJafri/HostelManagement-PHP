@@ -119,7 +119,7 @@
                                         <tr>
                                         <td><?php echo $cnt;;?></td>
                                         <td>
-                                        <img src="images/<?php echo$row->image_url; ?>" alt="<?php echo $row->title ?>"  >
+                                        <img src="<?php echo$row->image_url; ?>" alt="<?php echo $row->title ?>"  width="100" >
                                         </td>
                             
                                         <td><?php echo $row->title;?></td> 

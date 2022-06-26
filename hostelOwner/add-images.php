@@ -8,14 +8,14 @@ $aid = $_SESSION['id'];
 $hostel = "SELECT * from pm_hotel where `admin_id`='$aid' ";
 $run = $mysqli->query($hostel);
 $hostel_id = $run->fetch_assoc()['id'];
+$target_file="";
 if (isset($_POST['submit'])) {
 
-
+$title=$_POST['title'];
 
 
     $target_dir = "../hostel_images/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    echo $target_file;
+    $target_file = $target_dir.date("hisa") . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -58,7 +58,11 @@ if (isset($_POST['submit'])) {
         // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
+            $query = "INSERT INTO `hostel_images`( `hostel_id`, `admin_id`, `image_url`, `title`) VALUES
+             ('$hostel_id', '$aid', '$target_file', '$title')";
+            $result = $mysqli->query($query);
+            
+            echo "<script>alert('Image has been added');</script>";
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
@@ -72,13 +76,9 @@ if (isset($_POST['submit'])) {
 
 
 
+    
 
-
-    // $query = "INSERT into  rooms (seater,room_no,fees,hostel_id) values(?,?,?,?)";
-    // $stmt = $mysqli->prepare($query);
-    // $rc = $stmt->bind_param('iiii', $seater, $roomno, $fees, $hostel_id);
-    // $stmt->execute();
-    // echo "<script>alert('Room has been added');</script>";
+   
 
 }
 ?>
@@ -133,7 +133,7 @@ if (isset($_POST['submit'])) {
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Add Rooms</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Add Rooms images</h4>
                         <div class="d-flex align-items-center">
                             <!-- <nav aria-label="breadcrumb">
                                 
@@ -177,7 +177,16 @@ if (isset($_POST['submit'])) {
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Title of the Image</h4>
+                                    <div class="form-group">
+                                        <input type="text" name="title"  class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>

@@ -63,9 +63,9 @@ include 'partials/header.php'
                 <div class="block"></div>
                 <div class="container">
                     <div class="rooms_header d-sm-flex justify-content-between align-items-center">
-                        <h2 class="rooms_header-title" data-aos="fade-right">Hostel rooms</h2>
+                        <h2 class="rooms_header-title" data-aos="fade-right">Hostel</h2>
                         <div class="wrapper" data-aos="fade-left">
-                            <a class="btn theme-element theme-element--light" href="rooms.php">View all rooms</a>
+                            <a class="btn theme-element theme-element--light" href="rooms.php">View all Hostels</a>
                         </div>
                     </div>
                     <ul class="rooms_list d-md-flex flex-wrap">
@@ -85,6 +85,11 @@ include 'partials/header.php'
                                 $room=$result->fetch_object();
                                 if($room){
                                    
+                                    $hostel_images="SELECT * FROM `hostel_images` where `hostel_id`='$row->id' limit 1;";
+                                    $hostel_images= $mysqli->prepare($hostel_images) ;
+                                    $hostel_images->execute() ;//ok
+                                    $hostel_images=$hostel_images->get_result();
+                                    $hostel_images=$hostel_images->fetch_object();
                                 
                 
                         ?>
@@ -92,8 +97,10 @@ include 'partials/header.php'
                             <div class="item-wrapper d-md-flex flex-column">
                                 <div class="media">
                                     <picture>
-                                        <source data-srcset="img/room1.jpg" srcset="img/room1.jpg" />
-                                        <img class="lazy" data-src="img/room1.jpg" src="img/room1.jpg" alt="media" />
+                                        
+                                        <img class="lazy"  src="<?php 
+                                        echo $hostel_images->image_url;
+                                        ?>" alt="media" />
                                     </picture>
                                     <span class="media_label media_label--pricing">
                                         <span class="price h4"> <?php echo $room->fees;?></span>
@@ -122,17 +129,7 @@ include 'partials/header.php'
                             }}
                         ?>
                        
-                        <li class="rooms_list-item col-md-6 col-xl-4" data-order="3" data-aos="fade-up" data-aos-delay="100">
-                            <div class="card accent">
-                                <h3 class="title">Stay Longer, Save More</h3>
-                                <p class="text">It's simple: the longer you stay, the more you save!</p>
-                                <div class="content">
-                                    <p class="text">Save up to <b>30%</b> on daily rate for stays longer than 14 nights</p>
-                                    <p class="text">Save up to <b>20%</b> off the nightly rate on stays between 7-14 nights</p>
-                                </div>
-                                <a class="btn theme-element theme-element--light" href="rooms.php">Choose room</a>
-                            </div>
-                        </li>
+                       
                     </ul>
                 </div>
             </section>

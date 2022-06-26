@@ -54,7 +54,13 @@ require_once("../includes/dbconn.php");
                                 $result=$result->get_result();
                                 $room=$result->fetch_object();
                                 if($room){
-                                   
+
+
+                                $hostel_images="SELECT * FROM `hostel_images` where `hostel_id`='$row->id' limit 1;";
+                                $hostel_images= $mysqli->prepare($hostel_images) ;
+                                $hostel_images->execute() ;//ok
+                                $hostel_images=$hostel_images->get_result();
+                                $hostel_images=$hostel_images->fetch_object();
                                 
                 
                         ?>
@@ -63,8 +69,16 @@ require_once("../includes/dbconn.php");
                         <div class="item-wrapper d-md-flex">
                             <div class="media">
                                 <picture>
-                                    <source data-srcset="img/placeholder.jpg" srcset="img/placeholder.jpg" />
-                                    <img class="lazy" data-src="img/placeholder.jpg" src="img/placeholder.jpg" alt="media" />
+                                    <source data-srcset="<?php
+                                    echo $hostel_images->image_url;
+                                    ?>" srcset="<?php
+                                    echo $hostel_images->image_url;
+                                    ?>" />
+                                    <img class="lazy" data-src="<?php
+                                    echo $hostel_images->image_url;
+                                    ?>" src="<?php
+                                    echo $hostel_images->image_url;
+                                    ?>" alt="No IMage FOund" />
                                 </picture>
                             </div>
                             <div class="main d-md-flex justify-content-between">
@@ -73,12 +87,13 @@ require_once("../includes/dbconn.php");
                                    echo $row->title;
                                     ?></a>
                                     <p class="main_description"><?php 
-                                    echo $row->subtitle;
+                                    echo substr($row->subtitle,0,100);
+                                    
                                     ?></p>
                                     <div class="main_amenities">
                                        
                                         <span class="main_amenities-item d-inline-flex align-items-center">
-                                            <i class="icon-bunk_bed icon"></i>
+                                            <i class="icon-location icon"></i>
                                           <?php 
                                           echo $row->address
                                           ?> 

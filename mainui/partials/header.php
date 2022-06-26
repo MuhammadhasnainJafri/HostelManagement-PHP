@@ -44,9 +44,7 @@
                             <li class="header_nav-list_item">
                                 <a class="nav-item" href="index.php" data-page="home">Home</a>
                             </li>
-                            <li class="header_nav-list_item">
-                                <a class="nav-item" href="about.php" data-page="about">About</a>
-                            </li>
+                          
                             <li class="header_nav-list_item dropdown">
                                 <a
                                     class="nav-link dropdown-toggle d-inline-flex align-items-center"
@@ -57,43 +55,49 @@
                                     aria-controls="roomMenu"
                                     data-page="rooms"
                                 >
-                                    Rooms
+                                    Hostel
                                     <i class="icon-chevron_down--entypo icon"></i>
                                 </a>
                                 <div class="dropdown-menu collapse" id="roomMenu">
                                     <ul class="dropdown-list">
                                         <li class="list-item" data-main="true">
-                                            <a class="dropdown-item nav-item" data-page="rooms" href="rooms.php">Rooms</a>
+                                            <a class="dropdown-item nav-item" data-page="rooms" href="rooms.php">Hostels</a>
                                         </li>
                                         <li class="list-item">
-                                            <a class="dropdown-item nav-item" data-page="room" href="room.php">Single room</a>
+                                            <a class="dropdown-item nav-item" data-page="room" href="nearby-hostel.php">Neary Hostel</a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-                            
+                              <li class="header_nav-list_item">
+                                <a class="nav-item" href="about.php" data-page="about">About</a>
+                            </li>
+                            </li>
+                              <li class="header_nav-list_item">
+                                <a class="nav-item" href="contacts.php" data-page="about">Contacts</a>
+                            </li>
                             
                             <li class="header_nav-list_item dropdown">
                                 <a
                                     class="nav-link nav-link--contacts dropdown-toggle d-inline-flex align-items-center"
-                                    href="#"
+                                    href="../login.php"
                                     data-bs-toggle="collapse"
                                     data-bs-target="#contactsMenu"
                                     aria-expanded="false"
                                     aria-controls="contactsMenu"
                                 >
-                                    Contacts
+                                    Login
                                     <i class="icon-chevron_down--entypo icon"></i>
                                 </a>
                                 <div class="dropdown-menu collapse" id="contactsMenu">
-                                    <ul class="dropdown-list">
+                                    <!-- <ul class="dropdown-list">
                                         <li class="list-item">
                                             <a class="dropdown-item nav-item" data-page="contacts01" href="contacts.php">Contacts V1</a>
                                         </li>
                                         <li class="list-item">
                                             <a class="dropdown-item nav-item" data-page="contacts02" href="contacts2.php">Contacts V2</a>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </li>
                         </ul>
