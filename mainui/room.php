@@ -32,6 +32,7 @@ $id=$_GET['id'];
         <script src="https://www.youtube.com/player_api"></script>
         <link rel="stylesheet preload" as="style" href="css/preload.min.css" />
         <link rel="stylesheet preload" as="style" href="css/libs.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
         <link rel="stylesheet" href="css/room.min.css" />
     </head>
@@ -183,6 +184,64 @@ $id=$_GET['id'];
                             </p>
                                
                             </div>
+
+                            <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+          
+            <hr>
+            <h4 class="text-center">Mess Schedules</h4>
+                <div class="table-responsive">
+                    
+                    <table class="table table-striped table-hover table-bordered no-wrap" border="1">
+                    <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Day</th>
+                                <th>morning recipe</th>
+                                <th>noon recipe</th>
+                                <th>evening recipe</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php	
+                       
+                            
+                            $hostel="SELECT * from pm_hotel where `admin_id`='$id' ";
+                            $run=$mysqli->query($hostel);
+                            $hostel_id=$run->fetch_assoc()['id'];
+                            $ret="SELECT * from mess where hostel_id='$hostel_id' ";
+                            $stmt= $mysqli->prepare($ret) ;
+                            //$stmt->bind_param('i',$aid);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            $cnt=1;
+                            if($res->num_rows>0){
+                            while($row=$res->fetch_object())
+                                {
+                                    ?>
+                        <tr><td><?php echo $cnt;;?></td>
+                        <td><?php echo $row->day;?></td>
+                        <td><?php echo $row->recipy_morning;?></td>
+                        <td><?php echo $row->recipy_noon;?></td>
+                        <td><?php echo $row->recipy_eve;?></td>
+                        
+                        
+                        
+                        </tr>
+                            <?php
+                                $cnt=$cnt+1;
+                            }}?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                             <!-- <section class="facilities">
                                 <h4 class="facilities_header">Room facilities</h4>
                                 <div class="facilities_list d-sm-flex flex-wrap">
@@ -626,8 +685,8 @@ $id=$_GET['id'];
                                     <div class="main_amenities">
                                         
                                         <span class="main_amenities-item d-inline-flex align-items-center">
-                                            <i class="icon-bunk_bed icon"></i>
-                                            <?php echo $room->seater;?> Seater
+                                            <!-- <i class="icon-bunk_bed icon"></i> -->
+                                            <!-- <?php // echo $room->seater;?> Seater -->
                                         </span>
                                     </div>
                                     <a class="link link--arrow d-inline-flex align-items-center" href="room.php?id=<?php echo $row->id;?>">
@@ -646,6 +705,14 @@ $id=$_GET['id'];
                 </div>
             </section>
             <!-- rooms section end -->
+            <div class="container-fluid">
+
+<!-- Table Starts -->
+
+
+<!-- Table Ends -->
+
+</div>
             <!-- single room content start -->
         </main>
         <footer class="footer accent">

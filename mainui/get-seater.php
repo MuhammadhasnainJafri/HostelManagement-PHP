@@ -15,6 +15,20 @@
 }
 
 
+if(!empty($_POST["messfee"])) {	
+    $id=$_POST['messfee'];
+    $stmt = $DB_con->prepare("SELECT * FROM rooms WHERE room_no = :id limit 1");
+    $stmt->execute(array(':id' => $id));
+    ?>
+    <?php
+        while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+    ?>
+    <?php echo htmlentities($row['mess-fee']); ?>
+    <?php
+    }
+}
+
 
 if(!empty($_POST["rid"])) {	
     $id=$_POST['rid'];

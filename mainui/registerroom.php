@@ -1,5 +1,6 @@
 <?php 
 require_once("../includes/dbconn.php");
+$id=$_GET['id'];
 if(isset($_POST['name'])){
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -8,15 +9,24 @@ if(isset($_POST['name'])){
     $registrationNumber = $_POST['registrationNumber'];
     $password = $_POST['password'];
     $password = md5($password);
-    $query = "INSERT INTO `registrationrequest`( `name`, `email`, `reg_id`, `password`, `contactNumber`, `gender`) VALUES 
-    ('$name','$email','$registrationNumber','$password','$phone_no','$gender')";
+   
+    $mess = $_POST['mess'];
+    $seater=$_POST['roomseater'];
+
+    $roomNumber = $_POST['roomNumber'];//
+    $fees = $_POST['roomfees'];
+   
+    $query = "INSERT INTO `studentbooking`( `name`, `email`, `reg_id`, `password`, `contactNumber`, `gender`,`mess`,`seater`,`fees`,`roomNumber`) VALUES 
+    ('$name','$email','$registrationNumber','$password','$phone_no','$gender','$mess','$seater','$fees','$roomNumber')";
     if (mysqli_query($mysqli, $query)) {
         $_SESSION['email']=$email;
         $_SESSION['password']=$password;
         $message = urlencode("Applied for room successfully ");
         header("location:rooms.php?message=".$message);
+    }else{
+        echo $query;
     }
-    exit;
+    
 }
 ?>
 
@@ -62,7 +72,7 @@ if(isset($_POST['name'])){
                     <div class="row">
 
 
-
+<input type="hidden" value="<?php echo $id ?>" name="hostel_id">
 
 
                         <div class="col-sm-12 col-md-6 col-lg-6 ">
@@ -95,6 +105,67 @@ if(isset($_POST['name'])){
                                 </div>
                             </div>
                         </div>
+
+
+                        
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mt-3">Room Number</h4>
+                                    <div class="form-group mt-3">
+                                    <select class="form-control field required" name="roomNumber" id="room" onChange="getSeater(this.value);" onBlur="checkAvailability()" required id="inlineFormCustomSelect">
+                                            <?php 
+                                             
+                                             $query = "SELECT * FROM `rooms` where `hostel_id` = '$id'";
+                                             $stmt2 = $mysqli->prepare($query);
+                                             $stmt2->execute();
+                                             $res = $stmt2->get_result();
+                                             echo "<option selected>Select...</option>";
+                                             while ($row = $res->fetch_object()) {
+                                             ?>
+                                                 <option value="<?php echo $row->room_no; ?>"> <?php echo $row->room_no; ?></option>
+                                             <?php } 
+                                             
+                                             ?>
+                                        </select>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="roomseater" id="roomseater">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mt-3">Seater</h4>
+                                    <div class="form-group mt-3">
+                                    <input type="text" id="seater" onchange="roomseater(this.value)" name="seater" 
+                                    placeholder="Enter Seater No."  class="form-control field "  disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mt-3">MESS</h4>
+                                    <div class="form-group mt-3">
+                                    <select class="form-control field required" name="mess" id="mess" onChange="getmess(document.getElementById('room').value,this.value);"  required >
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected >No</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+
+
+
+
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="card">
                                 <div class="card-body">
@@ -125,11 +196,23 @@ if(isset($_POST['name'])){
                                     <h4 class="card-title mt-3">Gender</h4>
                                     <div class="form-group mt-3">
                                     <select class="form-control field required" name="gender">  
-                                        <option value="0">Male</option>
-                                        <option value="1">Female</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                     </select>
                                   
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="roomfees" id="roomfees">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                <h4 class="card-title mt-3">Total Fees Per Month</h4>
+                                    <div class="form-group">
+                                        <input type="text" name="fees" id="fpm" placeholder="Your total fees" class="mt-3 form-control field " disabled>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -149,6 +232,13 @@ if(isset($_POST['name'])){
                 </form>
 <script>
 function submitform() {
+
+    var val= $('#seater').val()
+    $('#roomseater').val(val);
+
+    var fees= $('#fpm').val()
+    $('#roomfees').val(fees);
+
    
     form=document.getElementById('myForm');
     const submitFormFunction = Object.getPrototypeOf(form).submit;
@@ -156,6 +246,55 @@ function submitform() {
 }
 
 </script>
+
+<script>
+
+function getmess(val,status){
+
+    $.ajax({
+        type: "POST",
+        url: "get-seater.php",
+        data:'messfee='+val,
+        success: function(data){
+        // alert(data);
+        if(status==1){
+            var hostelfee=Number($('#fpm').val());
+            var messfee=Number(data);
+            
+        $('#fpm').val(hostelfee+messfee);
+        }else if(status==0){
+            getSeater(val);
+        }
+        }
+        });
+}
+
+
+    function getSeater(val) {
+        $.ajax({
+        type: "POST",
+        url: "get-seater.php",
+        data:'roomid='+val,
+        success: function(data){
+        //alert(data);
+        $('#seater').val(data.trim());
+        }
+        });
+
+       
+
+        $.ajax({
+        type: "POST",
+        url: "get-seater.php",
+        data:'rid='+val,
+        success: function(data){
+        //alert(data);
+        $('#fpm').val(data.trim());
+        }
+        });
+        $('#mess').val(0);
+    }
+    </script>
 
             </div>
             </div>
@@ -165,5 +304,6 @@ function submitform() {
         include 'partials/footer.php';
         ?>
         <script src="js/common.min.js"></script>
+        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     </body>
 </html>

@@ -10,8 +10,9 @@ if (isset($_POST['submit'])) {
     $lng = $_POST['lng'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $city= $_POST['city'];
     
-    $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`) VALUES ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone')";
+    $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`,`city`) VALUES ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone','$city')";
     
     
 
@@ -201,6 +202,16 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                                     <h4 class="card-title">address</h4>
                                     <div class="form-group">
                                         <input type="text" name="address"  placeholder="Enter hostel address" required="required" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Hostel City</h4>
+                                    <div class="form-group">
+                                        <input type="text" name="city"  placeholder="Enter Hostel city" required class="form-control">
                                     </div>
                                 </div>
                             </div>

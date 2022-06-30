@@ -1,5 +1,8 @@
 <?php 
 require_once("../includes/dbconn.php");
+$city="";
+if(isset($_POST["city"])){
+$city=$_POST['city'];}
 ?>
 
 <!DOCTYPE html>
@@ -32,19 +35,44 @@ require_once("../includes/dbconn.php");
                     </li>
                 </ul>
                 <h1 class="page_title">Hostel</h1>
+               
             </div>
         </header>
         <!-- rooms page content start -->
+        <form method="POST" id="myForm" style="float: right;
+padding-right: 50px;
+padding-top: 50px;" >
+        <input type="text" name="city" class="form-control field required" placeholder="Search Hostel by city">
+        <button type="submit" class="bg-info" class="form-control field " style="padding: 15px;
+background: #5eba7d;
+color: white;
+border-radius: 20px;"  onclick="
+                            submitform()">Search</button>
+                </form>
+                <script>
+function submitform() {
+   
+    form=document.getElementById('myForm');
+    const submitFormFunction = Object.getPrototypeOf(form).submit;
+    submitFormFunction.call(form);
+}
+
+</script>
         <main class="rooms section">
             <div class="container">
                 <ul class="rooms_list">
 
                 <?php 
-                        $ret="SELECT * from pm_hotel;";
+                        if($city!=NULL){
+                        $ret="SELECT * from pm_hotel where city like '%$city%';";
+                        }else{
+                            $ret="SELECT * from pm_hotel;";
+                        }
                         $stmt= $mysqli->prepare($ret) ;
                         $stmt->execute() ;//ok
                         $res=$stmt->get_result();
                         $cnt=1;
+                        if($res->num_rows>0){
                         while($row=$res->fetch_object())
                             {
 
@@ -116,7 +144,11 @@ require_once("../includes/dbconn.php");
                         </div>
                     </li>
                     <?php 
-                                }}
+                                }
+                            }
+                            }else{
+                                echo "Sorry No Hostel Found ";
+                            }
                     ?>
                    
                 </ul>

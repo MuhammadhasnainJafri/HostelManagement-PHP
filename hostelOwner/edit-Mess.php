@@ -6,22 +6,16 @@ if(isset($_GET['id'])){
     $id=$_GET['id'];
 }
 if (isset($_POST['submit'])) {
-    // $admin_id = $_POST['admin_id'];
-    $title = $_POST['title'];
-    $subtitle = $_POST['subtitle'];
-    $address = $_POST['address'];
-    $lat = $_POST['lat'];
-    $lng = $_POST['lng'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $city = $_POST['city'];
+
+    $recipy_eve = $_POST['recipy_eve'];
+    $recipy_morning = $_POST['recipy_morning'];
+    $recipy_noon = $_POST['recipy_noon'];
     $id=$_POST['id'];
-    $query="UPDATE `pm_hotel` SET `title`='$title',`subtitle`='$subtitle',`address`='$address'
-    ,`lat`='$lat',`lng`=' $lng',`email`= '$email',`phone`='$phone' ,`city`='$city' WHERE `id`='$id'";
+    $query="UPDATE `mess` SET `recipy_eve`='$recipy_eve',`recipy_morning`='$recipy_morning',`recipy_noon`='$recipy_noon' WHERE `id`='$id'";
  
     
     if (mysqli_query($mysqli, $query)) {
-    header("Location:manage-hostel.php");
+    header("Location:manage-mess.php");
     }
 
 
@@ -108,7 +102,7 @@ if (isset($_POST['submit'])) {
                     <div class="row">
 
 <?php 
- $ret="SELECT * from pm_hotel WHERE id ='$id';";
+ $ret="SELECT * from mess WHERE id ='$id';";
  $stmt= $mysqli->prepare($ret) ;
  $stmt->execute() ;//ok
  $res=$stmt->get_result();
@@ -118,68 +112,13 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">hostel title</h4>
+                                    <h4 class="card-title">Breakfast recipe</h4>
                                     <div class="form-group">
-                                        <input type="text" name="title" value="<?php 
-                                        echo $result['title'];
-                                        ?>" placeholder="Enter hostel title" id="regno" class="form-control" required>
+                                        <input type="text" name="recipy_morning" value="<?php 
+                                        echo $result['recipy_morning'];
+                                        ?>" class="form-control" required>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Register hostel email</h4>
-                                    <div class="form-group">
-                                        <input type="text" name="email" value="<?php 
-                                        echo $result['email'];
-                                        ?>" placeholder="Enter hostel email" id="regno" class="form-control" required>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Hostel Phone Number</h4>
-                                    <div class="form-group">
-                                        <input type="text" name="phone"  value="<?php 
-                                        echo $result['phone'];
-                                        ?>" placeholder="Enter hostel Phone Number" id="regno" class="form-control" required>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">subtitle</h4>
-                                    <div class="form-group">
-                                        <input type="text" name="subtitle"
-                                        value="<?php 
-                                        echo $result['subtitle'];
-                                        ?>"
-                                         placeholder="Enter hostel subtitle" required class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">City</h4>
-                                    <div class="form-group">
-                                        <input type="text" name="city"  value="<?php 
-                                        echo $result['city'];
-                                        ?>"  placeholder="Enter hostel address" required="required" class="form-control">
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -188,27 +127,13 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">address</h4>
+                                    <h4 class="card-title">Lunch recipe</h4>
                                     <div class="form-group">
-                                        <input type="text" name="address"  value="<?php 
-                                        echo $result['address'];
-                                        ?>"  placeholder="Enter hostel address" required="required" class="form-control">
+                                        <input type="text" name="recipy_noon" value="<?php 
+                                        echo $result['recipy_noon'];
+                                        ?>" class="form-control" required>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-     
-
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Hostel Latitude</h4>
-                                    <div class="form-group">
-                                        <input type="text" name="lat"  value="<?php 
-                                        echo $result['lat'];
-                                        ?>"  placeholder="Enter Hostel latitude" required class="form-control">
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -216,16 +141,25 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Hostel Longitude</h4>
+                                    <h4 class="card-title">Dinner recipe</h4>
                                     <div class="form-group">
-                                        <input type="text" name="lng"  value="<?php 
-                                        echo $result['lng'];
-                                        ?>"  placeholder="Enter Hostel Longitude" required class="form-control">
+                                        <input type="text" name="recipy_eve" value="<?php 
+                                        echo $result['recipy_eve'];
+                                        ?>" class="form-control" required>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
+                       
+                       
 
+
+                      
+
+
+
+                     
                         
 
 

@@ -1,3 +1,20 @@
+<?php
+require_once("../includes/dbconn.php");
+$ret = "SELECT pm_hotel.title,pm_hotel.lat,pm_hotel.lng,pm_hotel.id,pm_hotel.address,hostel_images.image_url from pm_hotel,hostel_images  where pm_hotel.id=hostel_images.hostel_id  and hostel_images.brand!=''";
+$stmt = $mysqli->prepare($ret);
+$stmt->execute(); //ok
+$res = $stmt->get_result();
+$cnt = 1;
+$locationarray = array();
+while ($row = $res->fetch_object()) {
+    $locationarray[] = $row;
+}
+
+$location = json_encode($locationarray);
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +29,8 @@
     <link rel="stylesheet preload" as="style" href="css/libs.min.css" />
 
     <link rel="stylesheet" href="css/about.min.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    
 </head>
 
 <body>
@@ -61,6 +80,8 @@
 
 
     <script>
+        var locationdata = <?php echo $location; ?>;
+   
         function detectBrowser() {
             var useragent = navigator.userAgent;
             var mapdiv = document.getElementById("map");
@@ -124,18 +145,7 @@ let icon = {
                 
             });
          
-            var markers = [
-                ['3fe', 32.082466, 72.669128],
-                ['The Fumbally', 53.337031, -6.272995],
-                ['Coffeeangel', 53.343963, -6.262116],
-                ['Brother Hubbard', 53.332744, -6.265639],
-                ['Vice Coffee Inc.', 53.347829, -6.262295],
-                ['Roasted Brown', 53.344813, -6.264707],
-                ['Kaph', 53.342599, -6.263272],
-                ['Fallon & Byrne', 53.343151, -6.263287],
-                ['Clement & Pekoe', 53.341534, -6.26276],
-                ['my current location', latitude, longitude]
-            ];
+           
 
             // Info Window Content
             var infoWindowContent = [
@@ -144,69 +154,36 @@ let icon = {
                     '<p>32 Grand Canal Street Lower, Grand Canal Dock, Dublin 2</p>' +
                     '<img src="images/3fe.jpg" width="200" height="200">' +
                     '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>The Fumbally</h3>' +
-                    '<p>Fumbally Lane, Dublin 8</p>' +
-                    '<img src="images/thefumbally.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>' + markers[3][0] + '</h3>' +
-                    '<p>46 Harrington Street Dublin 8</p>' +
-                    '<img src="images/brotherhubbard.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Vice Coffee inc</h3>' +
-                    '<p>54 Middle Abbey St, Dublin 1</p>' +
-                    '<img src="images/vicecoffeeinc.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Roasted Brown</h3>' +
-                    '<p>1st Floor, Filmbase, Curved Street, Temple Bar, Dublin 2</p>' +
-                    '<img src="images/roastedbrown.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Kaph</h3>' +
-                    '<p>31 Drury St, Dublin 2</p>' +
-                    '<img src="images/kaph-6.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Fallon & Byrne</h3>' +
-                    '<p>17 Exchequer St, Dublin 2</p>' +
-                    '<img src="images/fallonandbyrne.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Clement & Pekoe</h3>' +
-                    '<p>50 South William St, Dublin 2</p>' +
-                    '<img src="images/ClementPekoe.jpg" width="200" height="200">' +
-                    '</div>'
                 ]
             ];
-
+           
             // Display multiple markers on a map
             var infoWindow = new google.maps.InfoWindow(),
-                marker, i;
+                marker, i=0;
 
-            // Loop through our array of markers & place each one on the map
-            for (i = 0; i < markers.length; i++) {
-                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+
+var z=0;
+
+                for (x in locationdata) {
+                    var position = new google.maps.LatLng(locationdata[x].lat,locationdata[x].lng);
                 bounds.extend(position);
                 marker = new google.maps.Marker({
                     position: position,
                     map: map,
-                    title: markers[i][0]
+                    title: locationdata[x].title
+                    
                 });
 
                 // Allow each marker to have an info window
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        // infoWindow.setContent(infoWindowContent[i][0]);
+                        console.info(marker);
+                        infoWindow.setContent('<div class="info_content"><a href="room.php?id='+locationdata[z].id+'">' +
+                    '<h3>'+locationdata[z].title+'</h3>' +
+                    '<p><b>Address: </b>'+locationdata[z].address+'</p>' +
+                    '<img src="'+locationdata[z].image_url+'" width="200" height="200">' +
+                    '<button class="learn-more" onclick="trackpath()"><span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">View Hostel</span></button></a>');
+                    z=z+1;
                         infoWindow.open(map, marker);
 
                         latit = marker.getPosition().lat();
@@ -240,7 +217,11 @@ let icon = {
                 // map.fitBounds(bounds);
                 map.setZoom(16); 
                 map.setCenter(new google.maps.LatLng(latitude, longitude));
-            }
+       
+    }
+
+            // Loop through our array of markers & place each one on the map
+           
         }
 
         // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
