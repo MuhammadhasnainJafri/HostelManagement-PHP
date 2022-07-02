@@ -31,6 +31,9 @@
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-mess.php"
         aria-expanded="false"><i class="fas fa-bed"></i><span
         class="hide-menu">Manage Mess</span></a></li>
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-bill.php"
+        aria-expanded="false"><i class="fas fa-bed"></i><span
+        class="hide-menu">Manage Bills</span></a></li>
 
        
                            

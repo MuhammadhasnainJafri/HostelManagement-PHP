@@ -36,6 +36,9 @@
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-rooms.php"
         aria-expanded="false"><i class="fas fa-bed"></i><span
         class="hide-menu">Manage Rooms</span></a></li>
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-bill.php"
+        aria-expanded="false"><i class="fas fa-bed"></i><span
+        class="hide-menu">Manage Bills</span></a></li>
 
         <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-courses.php"
         aria-expanded="false"><i class="fas fa-book"></i><span

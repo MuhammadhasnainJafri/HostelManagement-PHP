@@ -10,7 +10,7 @@ if(isset($_POST['name'])){
     $password = $_POST['password'];
     $password = md5($password);
     date_default_timezone_set("Asia/Karachi");
-    $date=date("h:i:sa");
+    $date=date("y-m-d");;
    
     $mess = $_POST['mess'];
     $seater=$_POST['roomseater'];
@@ -249,6 +249,9 @@ function submitform() {
 
         alert("Please fill the form first");
     }else{
+    //     form=document.getElementById('myForm');
+    // const submitFormFunction = Object.getPrototypeOf(form).submit;
+    // submitFormFunction.call(form);
 
         pay(fees)
    

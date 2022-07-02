@@ -94,17 +94,30 @@
             <div class="container-fluid">
                 <!-- *************************************************************** -->
                 <!-- Start First Cards -->
-                <!-- *************************************************************** -->
+                <!-- *************************************************************** --> 
+<?php 
+
+
+
+                $aid=$_SESSION['id'];
+                        $ret="select * from studentbooking where id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                        $stmt->bind_param('i',$aid);
+                        $stmt->execute() ;//ok
+                        $res=$stmt->get_result();
+                        //$cnt=1;
+                        $row=$res->fetch_object();
+                        ?>
                 <div class="card-group">
                     <div class="card border-right">
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?php include 'counters/student-count.php'?></h2>
+                                        <h2 class="text-dark mb-1 font-weight-medium"><?php echo $row->reg_id;?></h2>
                                 
                                     </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Registered Students</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Registration Number</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
@@ -117,8 +130,8 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><?php include 'counters/room-count.php'?></h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Rooms
+                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><?php echo $row->roomNumber;?></h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Room Number
                                     </h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
@@ -132,9 +145,14 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?php include 'counters/booked-count.php'?></h2>
+                                        <h2 class="text-dark mb-1 font-weight-medium"> <?php if($row->mess==0){
+                                            echo "Not Active";
+                                            } else {
+                                            echo "Active";
+                                            }
+                                            ;?></h2>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Booked Rooms</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Mess</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="book-open"></i></span>
@@ -146,8 +164,8 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h2 class="text-dark mb-1 font-weight-medium"><?php include 'counters/course-count.php'?></h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Featured Courses</h6>
+                                    <h2 class="text-dark mb-1 font-weight-medium">RS <?php echo $fpm=$row->fees;?></h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Fee Per Month</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
