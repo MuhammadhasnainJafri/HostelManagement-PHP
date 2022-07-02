@@ -11,9 +11,9 @@
 
         <li class="nav-small-cap"><span class="hide-menu">Features</span></li>
                             
-        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="register-student.php"
+        <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="register-student.php"
         aria-expanded="false"><i class="fas fa-user-plus"></i><span
-        class="hide-menu">Register Student</span></a></li>
+        class="hide-menu">Register Student</span></a></li> -->
 
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="hostel-owner.php"
         aria-expanded="false"><i class="fas fa-user-plus"></i><span
@@ -21,9 +21,9 @@
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-hostel.php"
         aria-expanded="false"><i class="fas fa-user-plus"></i><span
         class="hide-menu">Manage Hostels</span></a></li>
-        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="view-students-acc.php"
+        <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="view-students-acc.php"
         aria-expanded="false"><i class="fas fa-user-circle"></i><span
-        class="hide-menu">View Student Acc.</span></a></li>
+        class="hide-menu">View Student Acc.</span></a></li> -->
 
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="bookings.php"
         aria-expanded="false"><i class="fas fa-h-square"></i><span
@@ -37,9 +37,9 @@
         aria-expanded="false"><i class="fas fa-bed"></i><span
         class="hide-menu">Manage Rooms</span></a></li>
 
-        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-courses.php"
+        <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-courses.php"
         aria-expanded="false"><i class="fas fa-book"></i><span
-        class="hide-menu">Manage Courses</span></a></li>
+        class="hide-menu">Manage Courses</span></a></li> -->
                            
     </ul>
 </nav>

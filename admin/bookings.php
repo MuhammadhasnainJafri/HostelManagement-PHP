@@ -12,29 +12,26 @@
         $feespm=$_POST['fpm'];
         $foodstatus=$_POST['foodstatus'];
         $stayfrom=$_POST['stayf'];
-        $duration=$_POST['duration'];
-        $course=$_POST['course'];
+        $password=$_POST['password'];
         $regno=$_POST['regno'];
         $fname=$_POST['fname'];
         $mname=$_POST['mname'];
         $lname=$_POST['lname'];
+        $name=$fname." ".$mname." ".$lname;
         $gender=$_POST['gender'];
         $contactno=$_POST['contact'];
         $emailid=$_POST['email'];
-        $emcntno=$_POST['econtact'];
         $gurname=$_POST['gname'];
         $gurrelation=$_POST['grelation'];
         $gurcntno=$_POST['gcontact'];
         $caddress=$_POST['address'];
-        $ccity=$_POST['city'];
-        $cpincode=$_POST['pincode'];
-        $paddress=$_POST['paddress'];
-        $pcity=$_POST['pcity'];
-        $ppincode=$_POST['ppincode'];
+       $active='active';
         
-        $query="INSERT into  registration(roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresPincode,pmntAddress,pmntCity,pmntPincode,hostel_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query="INSERT into  studentbooking  (`name`, `email`, `reg_id`, `roomNumber`, `mess`, `seater`, `password`, `contactNumber`, `gender`, `fees`, `status`, `stayfrom`, `guardianName`, `guardianRelation`, `guardianContactno`, `corresAddress`,`hostel_id`) 
+        values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($query);
-        $rc=$stmt->bind_param('iiiisissssssisissississis',$roomno,$seater,$feespm,$foodstatus,$stayfrom,$duration,$course,$regno,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cpincode,$paddress,$pcity,$ppincode,$hostel_id);
+        $rc=$stmt->bind_param('ssisssssssssssssi',$name,$emailid,$regno,$roomno,$foodstatus,$seater,$password,$contactno,$gender,$feespm,$active,$stayfrom,$gurname,$gurrelation,$gurcntno,$caddress,$hostel_id);
+        
         $stmt->execute();
         echo"<script>alert('Success: Booked!');</script>";
     }
@@ -254,31 +251,7 @@ const xhttp = new XMLHttpRequest();
                     </div>
 
 
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Total Duration</h4>
-                                    <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" id="duration" name="duration">
-                                            <option selected>Choose...</option>
-                                            <option value="1">One Month</option>
-                                            <option value="2">Two Month</option>
-                                            <option value="3">Three Month</option>
-                                            <option value="4">Four Month</option>
-                                            <option value="5">Five Month</option>
-                                            <option value="6">Six Month</option>
-                                            <option value="7">Seven Month</option>
-                                            <option value="8">Eight Month</option>
-                                            <option value="9">Nine Month</option>
-                                            <option value="10">Ten Month</option>
-                                            <option value="11">Eleven Month</option>
-                                            <option value="12">Twelve Month</option>
-                                        </select>
-                                    </div>
-                              
-                            </div>
-                        </div>
-                    </div>
+                    
                     
 
                     <div class="col-sm-12 col-md-6 col-lg-4">
@@ -288,7 +261,9 @@ const xhttp = new XMLHttpRequest();
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio1" value="1" name="foodstatus"
                                         class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio1">Required <code>Extra RS 6000 Per Month</code></label>
+                                    <label class="custom-control-label" for="customRadio1">Required 
+                                        <!-- <code>Extra RS 6000 Per Month</code> -->
+                                    </label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio2" value="0" name="foodstatus"
@@ -391,6 +366,17 @@ const xhttp = new XMLHttpRequest();
                         </div>
                     </div>
 
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">password</h4>
+                                    <div class="form-group">
+                                        <input type="text" name="password" id="email" placeholder="Enter Student Password " class="form-control" required>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="card">
@@ -401,7 +387,7 @@ const xhttp = new XMLHttpRequest();
                                         <option value="">Select Gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="others">Others</option>
+                                       
                                     </select>
                                     </div>
                             </div>
@@ -434,28 +420,7 @@ const xhttp = new XMLHttpRequest();
                     </div>
 
 
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Preferred Course</h4>
-                                    <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" id="course" name="course">
-                                            <option selected>Please Select...</option>
-                                            <?php $query ="SELECT * FROM courses";
-                                                $stmt2 = $mysqli->prepare($query);
-                                                $stmt2->execute();
-                                                $res=$stmt2->get_result();
-                                                while($row=$res->fetch_object())
-                                                {
-                                            ?>
-                                            <option value="<?php echo $row->course_fn;?>"><?php echo $row->course_fn;?>&nbsp;&nbsp;(<?php echo $row->course_sn;?>)</option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                              
-                            </div>
-                        </div>
-                    </div>
+                    
                               
                 </div>
 
@@ -516,96 +481,24 @@ const xhttp = new XMLHttpRequest();
                         </div>
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">City</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="city" id="city" class="form-control" placeholder="Enter City Name" required>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Postal Code</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Enter Postal Code" required>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                     
                     </div>
 
 
-                    <h4 class="card-title mt-5">Permanent Address Information</h4>
+                 
 
 
-                    <div class="row">
+                 
                     
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle"><code>Ignore this CHECK BOX if you have different permanent address</code> </h6>
-                                    <fieldset class="checkbox">
-                                        <label>
-                                            <input type="checkbox" value="1" name="adcheck"> My permanent address is same as above!
-                                        </label>
-                                    </fieldset>
-                                   
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                    </div>
-
-                    
-                    <h5 class="card-title mt-5">Please fill up the form "ONLY IF" you've different permanent address!</h5>
+                   
 
 
-                    <div class="row">
-
-                    
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Address</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="paddress" id="paddress" class="form-control" placeholder="Enter Address" required>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">City</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="pcity" id="pcity" class="form-control" placeholder="Enter City Name" required>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Postal Code</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="ppincode" id="ppincode" class="form-control" placeholder="Enter Postal Code" required>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                     
                     
                     </div>

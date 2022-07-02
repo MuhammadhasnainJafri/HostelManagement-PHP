@@ -94,7 +94,7 @@
 
                                         <?php	
                                         $aid=$_SESSION['login'];
-                                        $ret="SELECT * from registration where emailid=?";
+                                        $ret="SELECT * from  studentbooking where email=?";
                                         $stmt= $mysqli->prepare($ret) ;
                                         $stmt->bind_param('s',$aid);
                                         $stmt->execute() ;
@@ -105,14 +105,14 @@
                                                 ?>
 
                                             <tr>
-                                                <td colspan="3"><b>Date & Time of Registration: <?php echo $row->postingDate;?></b></td>
+                                                <!-- <td colspan="3"><b>Date & Time of Registration: </b></td> -->
                                                 
                                             </tr>
 
                                             <tr>
 
                                             <td><b>Room no :</b></td>
-                                            <td><?php echo $row->roomno;?></td>
+                                            <td><?php echo $row->roomNumber;?></td>
 
                                             <td><b>Starting Date :</b></td>
                                             <td><?php echo $row->stayfrom;?></td>
@@ -125,87 +125,84 @@
 
                                             <tr>
 
-                                            <td><b>Duration:</b></td>
-                                            <td><?php echo $dr=$row->duration;?> Months</td>
+                                           
 
                                             <td><b>Food Status:</b></td>
                                             <td>
-                                            <?php if($row->foodstatus==0){
-                                            echo "Not Required";
+                                            <?php if($row->mess==0){
+                                            echo "NO Mess Subscription";
                                             } else {
-                                            echo "Required";
+                                            echo "Mess is Subscription";
                                             }
                                             ;?> </td>
 
                                             <td><b>Fees Per Month :</b></td>
-                                            <td>$<?php echo $fpm=$row->feespm;?></td>
+                                            <td>RS<?php echo $fpm=$row->fees;?></td>
 
                                             
 
                                             </tr>
 
                                             <tr>
-                                            <td colspan="6"><b>Total Fees (<?php echo ($dr).' months'?>) : 
-                                            <?php if($row->foodstatus==1){ 
-                                            $fd=211; 
-                                            echo '$'.(($fd+$fpm)*$dr);
-                                            } else {
-                                            echo '$'.$dr*$fpm;
-                                            }
+                                            <td colspan="6"><b>Total Fees per months) : 
+                                            <?php  
+                                            echo 'RS'.$fpm;
+                                            
                                             ?></b></td>
                                             </tr>
 
 
                                             <tr>
                                             <td><b>Registration Number :</b></td>
-                                            <td><?php echo $row->regno;?></td>
+                                            <td><?php echo $row->reg_id;?></td>
                                             <td><b>Full Name :</b></td>
-                                            <td><?php echo $row->firstName;?> <?php echo $row->middleName;?> <?php echo $row->lastName;?></td>
+                                            <td><?php echo $row->name;?> </td>
                                             <td><b>Email Address:</b></td>
-                                            <td><?php echo $row->emailid;?></td>
+                                            <td><?php echo $row->email;?></td>
                                             </tr>
 
 
                                             <tr>
                                             <td><b>Contact Number :</b></td>
-                                            <td><?php echo $row->contactno;?></td>
+                                            <td><?php echo $row->contactNumber;?></td>
                                             <td><b>Gender :</b></td>
                                             <td><?php echo $row->gender;?></td>
-                                            <td><b>Selected Course :</b></td>
-                                            <td><?php echo $row->course;?></td>
+                                            <!-- <td><b>Selected Course :</b></td>
+                                            <td><?php echo $row->course;?></td> -->
                                             </tr>
 
 
-                                            <tr>
+                                            <!-- <tr>
                                             <td><b>Emergency Contact No. :</b></td>
-                                            <td><?php echo $row->egycontactno;?></td>
+                                            <td><?php // echo $row->egycontactno;
+                                            ?></td>
                                             <td><b>Guardian Name :</b></td>
-                                            <td><?php echo $row->guardianName;?></td>
+                                            <td><?php // echo $row->guardianName;?></td>
                                             <td><b>Guardian Relation :</b></td>
-                                            <td><?php echo $row->guardianRelation;?></td>
-                                            </tr>
+                                            <td><?php //echo $row->guardianRelation;?></td>
+                                            </tr> -->
 
-                                            <tr>
+                                            <!-- <tr>
                                             <td><b>Guardian Contact No. :</b></td>
-                                            <td colspan="6"><?php echo $row->guardianContactno;?></td>
-                                            </tr>
+                                            <td colspan="6"><?php //echo $row->guardianContactno;?></td>
+                                            </tr> -->
 
-                                            <tr>
+                                            <!-- <tr>
                                             <td><b>Current Address:</b></td>
                                             <td colspan="2">
-                                            <?php echo $row->corresAddress;?><br />
-                                            <?php echo $row->corresCIty;?>, <?php echo $row->corresPincode;?><br />
-                                            <?php echo $row->corresState;?>
+                                            <?php // echo $row->corresAddress;?><br />
+                                            <?php // echo $row->corresCIty;?>, <?php // echo $row->corresPincode;?><br />
+                                            <?php // echo $row->corresState;?> -->
 
 
-                                            </td>
+                                            <!-- </td>
                                             <td><b>Permanent Address:</b></td>
                                             <td colspan="2">
-                                            <?php echo $row->pmntAddress;?><br />
-                                            <?php echo $row->pmntCity;?>, <?php echo $row->pmntPincode;?><br />	
+                                            <?php // echo $row->pmntAddress;?><br />
+                                            <?php // echo $row->pmntCity;?>, <?php // echo $row->pmntPincode;?><br />	
 
                                             </td>
-                                            </tr>
+                                            </tr> -->
 
 
                                             <?php

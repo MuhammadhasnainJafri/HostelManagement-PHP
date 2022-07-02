@@ -5,6 +5,7 @@ if(isset($_POST["city"])){
 $city=$_POST['city'];}
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -138,7 +139,7 @@ function submitform() {
                                         </span>
                                        
                                     </div>
-                                    <a class="theme-element theme-element--accent btn" href="#">Book now</a>
+                                    <a class="theme-element theme-element--accent btn" href="registerroom.php?id=<?php echo $row->id?>">Book now</a>
                                 </div>
                             </div>
                         </div>

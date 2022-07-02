@@ -11,17 +11,17 @@
     $op=md5($op);
     $np=$_POST['newpassword'];
     $np=md5($np);
-    $udate=date('d-m-Y h:i:s', time());;
-        $sql="SELECT password FROM userregistration where password=?";
+
+        $sql="SELECT password FROM  studentbooking  where password=?";
         $chngpwd = $mysqli->prepare($sql);
         $chngpwd->bind_param('s',$op);
         $chngpwd->execute();
         $chngpwd->store_result(); 
         $row_cnt=$chngpwd->num_rows;;
         if($row_cnt>0){
-            $con="update userregistration set password=?,passUdateDate=?  where id=?";
+            $con="update  studentbooking  set password=?  where id=?";
             $chngpwd1 = $mysqli->prepare($con);
-            $chngpwd1->bind_param('ssi',$np,$udate,$ai);
+            $chngpwd1->bind_param('si',$np,$ai);
             $chngpwd1->execute();
             $_SESSION['msg']="Password has been updated !!";
         } else {
@@ -97,23 +97,7 @@
                         <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Account Settings - Change Password</h4>
                 </div>
 
-                <div class="row">
-
-                <?php $result ="SELECT passUdateDate FROM userregistration WHERE id=?";
-                $stmt = $mysqli->prepare($result);
-                $stmt->bind_param('i',$ai);
-                $stmt->execute();
-                $stmt -> bind_result($result);
-                $stmt -> fetch(); ?>
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle">Last Updated On: <code><?php echo $result; ?></code> </h6>
-                                </div>
-                            </div>
-                        </div>
-                </div>
+                
 
 
                 <?php if(isset($_POST['changepwd'])){ ?>

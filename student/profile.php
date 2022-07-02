@@ -8,15 +8,14 @@
     if(isset($_POST['update']))
     {
 
-    $fname=$_POST['fname'];
-    $mname=$_POST['mname'];
-    $lname=$_POST['lname'];
+    $name=$_POST['name'];
+
     $gender=$_POST['gender'];
     $contactno=$_POST['contact'];
-    $udate = date('d-m-Y h:i:s', time());
-    $query="UPDATE  userRegistration set firstName=?,middleName=?,lastName=?,gender=?,contactNo=?,updationDate=? where id=?";
+   
+    $query="UPDATE  studentbooking  set `name`=?,`gender`=?,contactNumber=? where id=?";
     $stmt = $mysqli->prepare($query);
-    $rc=$stmt->bind_param('ssssisi',$fname,$mname,$lname,$gender,$contactno,$udate,$aid);
+    $rc=$stmt->bind_param('sssi',$name,$gender,$contactno,$aid);
     $stmt->execute();
     echo"<script>alert('Profile updated Succssfully');</script>";
     }
@@ -109,7 +108,7 @@
 
                     <?php	
                     $aid=$_SESSION['id'];
-                        $ret="select * from userregistration where id=?";
+                        $ret="select * from studentbooking where id=?";
                             $stmt= $mysqli->prepare($ret) ;
                         $stmt->bind_param('i',$aid);
                         $stmt->execute() ;//ok
@@ -119,18 +118,7 @@
                         {
                             ?>
     
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Last Updated On</h4>
-                                        <div class="form-group">
-                                            <input type="text" value="<?php echo $row->updationDate; ?>" class="form-control" required readonly>
-                                        </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-
+             
 
 
                         <div class="col-md-6">
@@ -138,7 +126,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Registration Number</h4>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" value="<?php echo $row->regNo;?>" required readonly>
+                                            <input type="text" class="form-control" value="<?php echo $row->reg_id;?>" required readonly>
                                         </div>
                                     
                                 </div>
@@ -158,7 +146,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">First Name</h4>
                                         <div class="form-group">
-                                            <input type="text" name="fname" id="fname" class="form-control" value="<?php echo $row->firstName;?>"   required="required">
+                                            <input type="text" name="name" id="fname" class="form-control" value="<?php echo $row->name;?>"   required="required">
                                         </div>
                                     
                                 </div>
@@ -166,30 +154,7 @@
                         </div>
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Middle Name</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="mname" id="mname" class="form-control" value="<?php echo $row->middleName;?>">
-                                        </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Last Name</h4>
-                                        <div class="form-group">
-                                            <input type="text" name="lname" id="lname" class="form-control" value="<?php echo $row->lastName;?>" required="required">
-                                        </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                       
 
 
 
@@ -199,10 +164,12 @@
                                 <h4 class="card-title">Gender</h4>
                                     <div class="form-group mb-4">
                                         <select class="custom-select mr-sm-2" id="gender" name="gender">
-                                            <option value="<?php echo $row->gender;?>"><?php echo $row->gender;?></option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Others">Others</option>
+                                        
+                                            <option value="male" <?php 
+                                            if($row->gender=="male"){echo "selected";}
+                                            ?>>Male</option>
+                                            <option value="female" <?php   if($row->gender=="female"){echo "selected";}?>>Female</option>
+                                           
                                         </select>
                                     </div>
                                 </div>
@@ -228,7 +195,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Contact Number</h4>
                                         <div class="form-group">
-                                            <input type="text" name="contact" id="contact" maxlength="10" class="form-control" value="<?php echo $row->contactNo;?>" required="required">
+                                            <input type="text" name="contact" id="contact" maxlength="10" class="form-control" value="<?php echo $row->contactNumber;?>" required="required">
                                         </div>
                                 </div>
                             </div>

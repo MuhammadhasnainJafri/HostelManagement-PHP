@@ -6,7 +6,7 @@
 
     if(isset($_GET['del'])) {
         $id=intval($_GET['del']);
-        $adn="DELETE from registration where id=?";
+        $adn="DELETE from studentbooking where id=?";
             $stmt= $mysqli->prepare($adn);
             $stmt->bind_param('i',$id);
             $stmt->execute();
@@ -113,7 +113,10 @@
                                         <tbody>
                                         <?php	
                                         $aid=$_SESSION['id'];
-                                        $ret="SELECT * from registration ";
+                                        $hostel="SELECT * from pm_hotel where `admin_id`='$aid' ";
+                                            $run=$mysqli->query($hostel);
+                                            $hostel_id=$run->fetch_assoc()['id'];
+                                        $ret="SELECT * from studentbooking where `hostel_id`='$hostel_id' ";
                                         $stmt= $mysqli->prepare($ret) ;
                                         $stmt->execute() ;//ok
                                         $res=$stmt->get_result();
@@ -122,12 +125,12 @@
                                             {
                                                 ?>
                                         <tr><td><?php echo $cnt;;?></td>
-                                        <td><?php echo $row->regno;?></td>
-                                        <td><?php echo $row->firstName;?> <?php echo $row->middleName;?> <?php echo $row->lastName;?></td>
-                                        <td><?php echo $row->roomno;?></td>
+                                        <td><?php echo $row->reg_id;?></td>
+                                        <td><?php echo $row->name;?></td>
+                                        <td><?php echo $row->roomNumber;?></td>
                                         <td><?php echo $row->seater;?></td>
                                         <td><?php echo $row->stayfrom;?></td>
-                                        <td><?php echo $row->contactno;?></td>
+                                        <td><?php echo $row->contactNumber;?></td>
                                         <td>
                                         <a href="students-profile.php?id=<?php echo $row->id;?>" title="View Full Details"><i class="icon-size-fullscreen"></i></a>&nbsp;&nbsp;
                                         <a href="manage-students.php?del=<?php echo $row->id;?>" title="Delete Record" onclick="return confirm("Do you want to delete");"><i class="icon-close" style="color:red;"></i></a></td>

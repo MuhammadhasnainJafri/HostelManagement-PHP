@@ -131,7 +131,7 @@
 
 
                                         </td>
-                                        <td>$<?php echo $row->fees;?></td>
+                                        <td>RS <?php echo $row->fees;?></td>
                                         <td><?php echo $row->posting_date;?></td>
                                         <td><a href="edit-room.php?id=<?php echo $row->id;?>" title="Edit"><i class="icon-note"></i></a>&nbsp;&nbsp;
                                         <a href="manage-rooms.php?del=<?php echo $row->id;?>" title="Delete" onclick="return confirm("Do you want to delete");"><i class="icon-close" style="color:red;"></i></a></td>

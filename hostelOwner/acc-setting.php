@@ -17,9 +17,9 @@
         $row_cnt=$chngpwd->num_rows;;
         if($row_cnt>0)
         {
-            $con="update admin set password=?,updation_date=?  where id=?";
+            $con="update hostel_owner set password=?  where id=?";
     $chngpwd1 = $mysqli->prepare($con);
-    $chngpwd1->bind_param('ssi',$np,$udate,$ai);
+    $chngpwd1->bind_param('ssi',$np,$ai);
     $chngpwd1->execute();
             $_SESSION['msg']="Password has been changed";
         } else {

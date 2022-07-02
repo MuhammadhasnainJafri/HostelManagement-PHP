@@ -87,7 +87,7 @@
                                       <?php	
                                       
                                       $id=$_GET['id'];
-                                        $ret="SELECT * from registration where id=?";
+                                        $ret="SELECT * from studentbooking  where id=?";
                                         $stmt= $mysqli->prepare($ret) ;
                                     $stmt->bind_param('i',$id);
                                     $stmt->execute() ;//ok
@@ -98,34 +98,31 @@
                                               ?>
                                         
 
-                                          <tr>
-                                              <td colspan="3"><b>Date & Time of Registration: <?php echo $row->postingDate;?></b></td>
-                                              
-                                          </tr>
+                                        
 
                                           <tr>
                                           <td><b>Registration Number :</b></td>
-                                          <td><?php echo $row->regno;?></td>
+                                          <td><?php echo $row->reg_id;?></td>
                                           <td><b>Full Name :</b></td>
-                                          <td><?php echo $row->firstName;?> <?php echo $row->middleName;?> <?php echo $row->lastName;?></td>
-                                          <td><b>Email Address:</b></td>
-                                          <td><?php echo $row->emailid;?></td>
+                                          <td><?php echo $row->name;?> </td>
+                                         
                                           </tr>
 
 
                                           <tr>
+                                          <td><b>Email Address:</b></td>
+                                          <td><?php echo $row->email;?></td>
                                           <td><b>Contact Number :</b></td>
-                                          <td><?php echo $row->contactno;?></td>
+                                          <td><?php echo $row->contactNumber;?></td>
                                           <td><b>Gender :</b></td>
                                           <td><?php echo $row->gender;?></td>
-                                          <td><b>Selected Course :</b></td>
-                                          <td><?php echo $row->course;?></td>
+                                       
                                           </tr>
 
 
                                           <tr>
                                           <td><b>Emergency Contact No. :</b></td>
-                                          <td><?php echo $row->egycontactno;?></td>
+                                          <td><?php echo $row->contactNumber;?></td>
                                           <td><b>Guardian Name :</b></td>
                                           <td><?php echo $row->guardianName;?></td>
                                           <td><b>Guardian Relation :</b></td>
@@ -141,26 +138,20 @@
                                           <td><b>Current Address:</b></td>
                                           <td colspan="2">
                                           <?php echo $row->corresAddress;?><br />
-                                          <?php echo $row->corresCIty;?>, <?php echo $row->corresPincode;?><br />
-                                          <?php echo $row->corresState;?>
+                                         
 
 
                                           </td>
-                                          <td><b>Permanent Address:</b></td>
-                                          <td colspan="2">
-                                          <?php echo $row->pmntAddress;?><br />
-                                          <?php echo $row->pmntCity;?>, <?php echo $row->pmntPincode;?><br />	
-
-                                          </td>
+                    
                                           </tr>
 
                                           <tr>
 
                                           <td><b>Room no :</b></td>
-                                          <td><?php echo $row->roomno;?></td>
+                                          <td><?php echo $row->roomNumber;?></td>
                                           <td><b>Hostel :</b></td>
                                           <?php 
-                                          $id=$row-> hostel_id;
+                                           $id=$row-> hostel_id;
                                            $ret="SELECT * from pm_hotel WHERE `id` ='$id';";
                                            $stmt= $mysqli->prepare($ret) ;
                                            $stmt->execute() ;//ok
@@ -169,8 +160,7 @@
                                           ?>
                                           <td><?php print_r($result['title']); ?></td>
 
-                                          <td><b>Starting Date :</b></td>
-                                          <td><?php echo $row->stayfrom;?></td>
+                                      
 
                                           <td><b>Seater :</b></td>
                                           <td><?php echo $row->seater;?></td>
@@ -180,34 +170,27 @@
 
                                           <tr>
 
-                                          <td><b>Duration:</b></td>
-                                          <td><?php echo $dr=$row->duration;?> Months</td>
+                                          <td><b>Starting Date :</b></td>
+                                          <td><?php echo $row->stayfrom;?></td>
 
                                           <td><b>Food Status:</b></td>
                                           <td>
-                                          <?php if($row->foodstatus==0){
-                                          echo "Not Required";
+                                          <?php if($row->mess==0){
+                                          echo "Not Subscribed";
                                           } else {
-                                          echo "Required";
+                                          echo "Subscribed";
                                           }
                                           ;?> </td>
 
                                           <td><b>Fees Per Month :</b></td>
-                                          <td>$<?php echo $fpm=$row->feespm;?></td>
+                                          <td>RS <?php echo $fpm=$row->fees;?></td>
 
                                           
 
                                           </tr>
 
                                           <tr>
-                                          <td colspan="6"><b>Total Fees (<?php echo ($dr).' months'?>) : 
-                                          <?php if($row->foodstatus==1){ 
-                                          $fd=211; 
-                                          echo '$'.(($fd+$fpm)*$dr);
-                                          } else {
-                                          echo '$'.$dr*$fpm;
-                                          }
-                                          ?></b></td>
+                                         
                                           </tr>
 
 

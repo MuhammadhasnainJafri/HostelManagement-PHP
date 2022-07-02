@@ -1,12 +1,20 @@
+<?php 
+if(isset($_GET['message'])){
+echo "<script>
+alert('Your room has been registered successfully')
+</script>";
+}
+?>
 <?php
     session_start();
+
     include('includes/dbconn.php');
     if(isset($_POST['login']))
     {
     $email=$_POST['email'];
     $password=$_POST['password'];
     $password = md5($password);
-    $stmt=$mysqli->prepare("SELECT email,password,id FROM userregistration WHERE email=? and password=? ");
+    $stmt=$mysqli->prepare("SELECT email,password,id FROM studentbooking  WHERE email=? and password=? ");
         $stmt->bind_param('ss',$email,$password);
         $stmt->execute();
         $stmt -> bind_result($email,$password,$id);
