@@ -1,17 +1,19 @@
 <?php
 session_start();
 include('../includes/dbconn.php');
+include('../includes/pdoconfig.php');
 include('../includes/check-login.php');
 check_login();
 
 if (isset($_POST['submit'])) {
     $seater = $_POST['seater'];
     $fees = $_POST['fees'];
+    $messfee=$_POST['mess-fee'];
     $id = $_GET['id'];
 
-    $query = "UPDATE rooms set seater=?,fees=? where id=?";
+    $query = "UPDATE rooms set seater=?,fees=?,`mess-fee`=? where id=?";
     $stmt = $mysqli->prepare($query);
-    $rc = $stmt->bind_param('iii', $seater, $fees,$id);
+    $rc = $stmt->bind_param('iiii', $seater, $fees,$messfee,$id);
     $stmt->execute();
     echo "<script>alert('Room details has been updated');
         window.location.href='manage-rooms.php';
@@ -93,13 +95,13 @@ $error="";
 
                         <?php
                         $id = $_GET['id'];
-                        $ret = "SELECT * from rooms where id=?";
-                        $stmt = $mysqli->prepare($ret);
-                        $stmt->bind_param('i', $id);
-                        $stmt->execute(); //ok
-                        $res = $stmt->get_result();
+                        $ret = "SELECT * from rooms where id=:id";
+                        $stmt = $DB_con->prepare($ret);
+                        
+                        $stmt->execute(array(':id' => $id)); //ok
+                       
                         //$cnt=1;
-                        while ($row = $res->fetch_object()) {
+                        while ($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                         ?>
 
 
@@ -108,7 +110,7 @@ $error="";
                                     <div class="card-body">
                                         <h4 class="card-title">Room Number</h4>
                                         <div class="form-group">
-                                            <input type="text" name="rmno" value="<?php echo $row->room_no; ?>" id="rmno" class="form-control" disabled>
+                                            <input type="text" name="rmno" value="<?php echo $row['room_no']; ?>" id="rmno" class="form-control" disabled>
                                         </div>
 
                                     </div>
@@ -123,7 +125,7 @@ $error="";
                                         <h4 class="card-title">Seater</h4>
                                         <div class="form-group mb-4">
                                             <select class="custom-select mr-sm-2" id="seater" name="seater" required="required">
-                                                <option value="<?php echo $row->seater; ?>"><?php echo $row->seater; ?></option>
+                                                <option value="<?php echo $row['seater']; ?>"><?php echo $row['seater']; ?></option>
                                                 <option value="1">Single Seater</option>
                                                 <option value="2">Two Seater</option>
                                                 <option value="3">Three Seater</option>
@@ -141,7 +143,18 @@ $error="";
                                     <div class="card-body">
                                         <h4 class="card-title">Total Fees</h4>
                                         <div class="form-group">
-                                            <input type="number" name="fees" id="fees" value="<?php echo $row->fees; ?>" class="form-control">
+                                            <input type="number" name="fees" id="fees" value="<?php echo $row['fees']; ?>" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Mess fee</h4>
+                                        <div class="form-group">
+                                            <input type="number" name="mess-fee" id="fees" value="<?php echo $row['mess-fee']; ?>" class="form-control">
                                         </div>
                                     </div>
                                 </div>

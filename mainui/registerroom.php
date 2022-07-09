@@ -345,7 +345,7 @@ function getmess(val,status){
           data: { tokenId: token.id, amount: amount },
           dataType: "json",
           success: function( response ) {
-            alert("success");
+            
             form=document.getElementById('myForm');
     const submitFormFunction = Object.getPrototypeOf(form).submit;
     submitFormFunction.call(form);

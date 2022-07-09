@@ -17,7 +17,7 @@ if($result->num_rows==0){
     $cnt = 1;
     while ($row = $res->fetch_object()) {
        $sql="INSERT INTO `bill`(`student_id`, `hostel_id`, `start_from`, `bill`, `month`, `status`) VALUES
-        ('$row->id','$row->hostel_id','$row->stayfrom','$row->fees','$date','pending')" ;  
+        ('$row->id','$row->hostel_id','$row->stayfrom','$row->fees','$date','unpaid')" ;  
         mysqli_query($mysqli, $sql);
         
         

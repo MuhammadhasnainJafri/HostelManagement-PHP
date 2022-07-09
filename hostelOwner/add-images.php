@@ -9,10 +9,16 @@ $hostel = "SELECT * from pm_hotel where `admin_id`='$aid' ";
 $run = $mysqli->query($hostel);
 $hostel_id = $run->fetch_assoc()['id'];
 $target_file="";
+$brand=NULL;
 if (isset($_POST['submit'])) {
 
 $title=$_POST['title'];
-
+$checkbrand="SELECT * FROM `hostel_images` WHERE  `hostel_id`='$hostel_id' and `brand`!=''";
+$result=mysqli_query($mysqli, $checkbrand);
+$count=$result->num_rows;
+if($count==0){
+    $brand='brand';
+}
 
     $target_dir = "../hostel_images/";
     $target_file = $target_dir.date("hisa") . basename($_FILES["fileToUpload"]["name"]);
@@ -58,8 +64,8 @@ $title=$_POST['title'];
         // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            $query = "INSERT INTO `hostel_images`( `hostel_id`, `admin_id`, `image_url`, `title`) VALUES
-             ('$hostel_id', '$aid', '$target_file', '$title')";
+            $query = "INSERT INTO `hostel_images`( `hostel_id`, `admin_id`, `image_url`, `title`,`brand`) VALUES
+             ('$hostel_id', '$aid', '$target_file', '$title','$brand')";
             $result = $mysqli->query($query);
             
             echo "<script>alert('Image has been added');</script>";

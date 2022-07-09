@@ -22,7 +22,13 @@ if($result->num_rows==0){
         
         
     }
-}   
+}
+
+if(isset($_POST['messID'])){
+$messID = $_POST['messID'];
+$sql="UPDATE `bill` SET `status`='paid' where `id`='$messID'";
+$result=mysqli_query($mysqli, $sql);
+}
 
 ?>
 
@@ -115,6 +121,7 @@ if($result->num_rows==0){
                                         <tbody>
                                             <?php
                                             $aid = $_SESSION['id'];
+                                            $email="";
                                             
                                             $ret = "SELECT * from bill where `student_id`='$aid' ORDER BY status DESC ";
                                             $stmt = $mysqli->prepare($ret);
@@ -138,6 +145,7 @@ if($result->num_rows==0){
                                                     $result->execute();
                                                     $result = $result->get_result();
                                                     $result = $result->fetch_assoc();
+                                                    $email=$result['email'];
 
 
 
@@ -183,8 +191,11 @@ if($result->num_rows==0){
     </div>
 
 
+<input type="hidden" name="email" id="email" value="<?php echo $email; ?>" />
+<form name="myForm" method="post" id="myForm">
+<input type="hidden" name="messID" id="messID">
 
-
+</form>
 
                                             
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -213,18 +224,10 @@ if($result->num_rows==0){
           data: { tokenId: token.id, amount: amount },
           dataType: "json",
           success: function( response ) {
-            alert("success");
-
-            $.ajax({
-          url:"paybill.php",
-          method: 'post',
-          data: { billID: id},
-          dataType: "json",
-          success: function( response ) {
-            alert(success);
-          }
-        });
-            
+           $('#messID').val(id);
+            form=document.getElementById('myForm');
+            const submitFormFunction = Object.getPrototypeOf(form).submit;
+            submitFormFunction.call(form);
 
 
 

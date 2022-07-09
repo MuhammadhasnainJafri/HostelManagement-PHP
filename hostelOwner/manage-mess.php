@@ -145,6 +145,7 @@
 
                                                     $Sunday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Sunday','NULL','NULL','NULL')";
                                                     $Sunday=mysqli_query($mysqli, $Sunday);
+                                                    header('location:manage-mess.php');
 
                                             } ?>
 									    </tbody>

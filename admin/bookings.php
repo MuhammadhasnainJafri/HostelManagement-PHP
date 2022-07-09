@@ -12,7 +12,7 @@
         $feespm=$_POST['fpm'];
         $foodstatus=$_POST['foodstatus'];
         $stayfrom=$_POST['stayf'];
-        $password=$_POST['password'];
+        $password=md5($_POST['password']);
         $regno=$_POST['regno'];
         $fname=$_POST['fname'];
         $mname=$_POST['mname'];

@@ -124,16 +124,10 @@ $location = json_encode($locationarray);
             directionsDisplay.setMap(map);
 
             var bounds = new google.maps.LatLngBounds();
-            //        var mapOptions = {
-            //            mapTypeId: 'roadmap'
-            //        };
-
-            // Multiple Markers
+           
            
 let icon = {
    url: 'img/location.png',
-//    scaledSize: { width: 69, height: 41 }
-//    size: { width: 56, height: 56 }
 }
 
             var mymarker = new google.maps.Marker({

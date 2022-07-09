@@ -151,9 +151,17 @@ if (isset($_POST['submit'])) {
                                         echo $result['status'];
                                         ?>"
                                         >
-                                            <option value="paid">Paid</option>
+                                            <option value="paid" <?php 
+                                            if($result['status']=='paid'){
+                                                echo 'selected';
+                                            }
+                                            ?>>Paid</option>
 
-                                            <option value="unpaid">Un Paid</option>
+                                            <option value="unpaid" <?php 
+                                            if($result['status']=='unpaid'){
+                                                echo 'selected';
+                                            }
+                                            ?>>Un Paid</option>
                                         </select>
                                     </div>
 
