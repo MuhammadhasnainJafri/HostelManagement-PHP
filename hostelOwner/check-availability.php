@@ -36,18 +36,18 @@
     }
 
 
-    if(!empty($_POST["roomno"])) {
+    if(!empty($_POST["roomno"])) { 
     $roomno=$_POST["roomno"];
-    $result ="SELECT count(*) FROM registration WHERE roomno=?";
-    $stmt = $mysqli->prepare($result);
-    $stmt->bind_param('i',$roomno);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
-    if($count>0)
-    echo "<span style='color:red'>$count. Seats already full.</span>";
+    if(isset($_GET['hostel_id'])){
+    $hostel_id=$_GET["hostel_id"];
+    }
+    $result ="SELECT * FROM `rooms` where `hostel_id` = '$hostel_id' AND `room_no` = '$roomno' AND `occupied`<`seater`";
+    $stmt = $mysqli->query($result);
+   
+    if($stmt->num_rows>0)
+    echo "<span style='color:red'>Seats Available</span>";
+   
     else
-        echo "<span style='color:red'>All Seats are Available</span>";
+        echo "<span style='color:red'>Seats already full.</span>";
     }
 ?>

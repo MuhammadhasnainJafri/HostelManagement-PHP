@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
                                    <!-- <a href="../index.php" class="text-danger">Go Back</a> -->
-                                   
+                                   <a href="../mainui/registerHosteller.php" class="text-success">Register as Hosteller</a><br>
                                    <a href="../admin/index.php" class="text-danger">Go to Admin Panel</a><br>
                                   
                                 

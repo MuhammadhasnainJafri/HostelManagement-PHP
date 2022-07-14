@@ -35,6 +35,8 @@
         $rc=$stmt->bind_param('ssisssssssssssssi',$name,$emailid,$regno,$roomno,$foodstatus,$seater,$password,$contactno,$gender,$feespm,$active,$stayfrom,$gurname,$gurrelation,$gurcntno,$caddress,$hostel_id);
         
         $stmt->execute();
+        $query = "UPDATE `rooms` SET `occupied`=`occupied`+1 WHERE `room_no`='$roomNumber' AND `hostel_id`='$id'; ";
+        mysqli_query($mysqli, $query);
         echo"<script>alert('Success: Booked!');</script>";
     }
 ?>
@@ -206,7 +208,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Room Number</h4>
                                     <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" name="room" id="room" onChange="getSeater(this.value);" onBlur="checkAvailability()" required id="inlineFormCustomSelect">
+                                        <select class="custom-select mr-sm-2" name="room" id="room" onChange="getSeater(this.value);checkAvailability(<?php echo $hid ?>,this.value);" onBlur="" required id="inlineFormCustomSelect">
                                             <?php 
                                              
                                              $query = "SELECT * FROM `rooms` where `hostel_id` = '$hid'";
@@ -561,10 +563,10 @@
     </script>
     
     <script>
-        function checkAvailability() {
+        function checkAvailability(hostel_id,roomno) {
         $("#loaderIcon").show();
         jQuery.ajax({
-        url: "check-availability.php",
+        url: "check-availability.php?hostel_id="+hostel_id+"&roomno="+roomno,
         data:'roomno='+$("#room").val(),
         type: "POST",
         success:function(data){

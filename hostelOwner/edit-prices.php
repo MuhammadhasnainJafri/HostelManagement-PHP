@@ -126,7 +126,7 @@ $error="";
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Mess fee</h4>
+                                        <h4 class="card-title">Price</h4>
                                         <div class="form-group">
                                             <input type="number" name="price" id="price" value="<?php echo $row['price']; ?>" class="form-control">
                                         </div>

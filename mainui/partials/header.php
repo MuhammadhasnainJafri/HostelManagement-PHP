@@ -55,9 +55,9 @@
                                 <a class="nav-item" href="about.php" data-page="about">About</a>
                             </li>
                             </li>
-                              <li class="header_nav-list_item">
+                              <!-- <li class="header_nav-list_item">
                                 <a class="nav-item" href="contacts.php" data-page="about">Contacts</a>
-                            </li>
+                            </li> -->
                             
                             <li class="header_nav-list_item dropdown">
                                 <a

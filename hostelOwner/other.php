@@ -51,7 +51,6 @@ if (isset($_POST['submit'])) {
         $query = "INSERT INTO `facilities` ( `hostel_id`, `admin_id`, `facilityName`) VALUES ('$hostel_id', '$aid', '$facility');";
         $oresult = mysqli_query($mysqli, $query);
     }
-    
 }
 
 $error = "";
@@ -138,40 +137,79 @@ $error = "";
                                     <h4 class="card-title">Hostel Facilities</h4>
                                     <div class="form-group mb-4 row">
 
-                                    <?php
+                                        <?php
 
-// $ret = "SELECT * from facilities where `hostel_id`='$hostel_id' ";
-// $stmt = $mysqli->prepare($ret);
-// $stmt->execute();
-// $res = $stmt->get_result();
-// $cnt = 1;
-// $checkbox=array();
-// $i=0;
-// while ($row = $res->fetch_object()) {
-//     $checkbox[$i]=$row['facilityName'];
-//     $i++;
-    
-// }
-?>
+                                        $ret = "SELECT * from facilities where `hostel_id`='$hostel_id' ";
+                                        $stmt = $mysqli->prepare($ret);
+                                        $stmt->execute();
+                                        $res = $stmt->get_result();
+                                        $cnt = 1;
+                                        $checkbox = array();
+                                        $i = 0;
+                                        while ($row = $res->fetch_object()) {
+                                            $checkbox[$i] = $row->facilityName;
+                                            $i++;
+                                        }
+                                        ?>
 
 
-                                        <div class="col-5"> <input type="checkbox" name="WIFI" value="Wifi"> Wifi
+                                        <div class="col-5"> <input type="checkbox" name="WIFI" value="Wifi" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'Wifi') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> Wifi
                                         </div>
-                                        <div class="col-5"> <input type="checkbox" name="CarpetedRooms" value="Carpeted Rooms"> Carpeted Rooms</div>
-                                        <div class="col-5"> <input type="checkbox" name="TV"    value="TV"> TV
+                                        <div class="col-5"> <input type="checkbox" name="CarpetedRooms" value="Carpeted Rooms"<?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'Carpeted Rooms') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> Carpeted Rooms</div>
+                                        <div class="col-5"> <input type="checkbox" name="TV" value="TV" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'TV') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> TV
                                         </div>
-                                        <div class="col-5"> <input type="checkbox" name="bathroom"  value="Attached Bathroom"> Attached Bathroom
+                                        <div class="col-5"> <input type="checkbox" name="bathroom" value="Attached Bathroom" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'Attached Bathroom') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> Attached Bathroom
                                         </div>
-                                        <div class="col-5"> <input type="checkbox" name="laundry"   value="Laundry"> Laundry
+                                        <div class="col-5"> <input type="checkbox" name="laundry" value="Laundry" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'Laundry') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> Laundry
                                         </div>
-                                        
-                                        <div class="col-5"> <input type="checkbox" name="security"  value="24 Hour Security"> 24 Hour Security
+
+                                        <div class="col-5"> <input type="checkbox" name="security" value="24 Hour Security" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == '24 Hour Security') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> 24 Hour Security
                                         </div>
-                                        <div class="col-5"> <input type="checkbox" name="AirConditioning"   value="Air Conditioning"> Air Conditioning</div>
-                                        
-                                        <div class="col-5"> <input type="checkbox" name="Camera"    value="CCTV Camera"> CCTV Camera
+                                        <div class="col-5"> <input type="checkbox" name="AirConditioning" value="Air Conditioning" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'Air Conditioning') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> Air Conditioning</div>
+
+                                        <div class="col-5"> <input type="checkbox" name="Camera" value="CCTV Camera" <?php foreach ($checkbox as $value) {
+                                                                                                                if($value == 'CCTV Camera') {
+                                                                                                                    echo 'checked="checked"';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            ?>> CCTV Camera
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>

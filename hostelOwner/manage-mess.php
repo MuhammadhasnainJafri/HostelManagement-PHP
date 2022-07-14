@@ -125,27 +125,27 @@
                                                 $cnt=$cnt+1;
                                             }}else{
 
-                                                    $monday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Monday','NULL','NULL','NULL')";
+                                                    $monday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Monday','-','-','-')";
                                                     $monday=mysqli_query($mysqli, $monday);
 
-                                                    $Tuesday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Tuesday','NULL','NULL','NULL')";
+                                                    $Tuesday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Tuesday','-','-','-')";
                                                     $Tuesday=mysqli_query($mysqli, $Tuesday);
 
-                                                    $Wednesday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Wednesday','NULL','NULL','NULL')";
+                                                    $Wednesday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Wednesday','-','-','-')";
                                                     $Wednesday=mysqli_query($mysqli, $Wednesday);
 
-                                                    $Thursday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Thursday','NULL','NULL','NULL')";
+                                                    $Thursday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Thursday','-','-','-')";
                                                     $Thursday=mysqli_query($mysqli, $Thursday);
 
-                                                    $Friday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Friday','NULL','NULL','NULL')";
+                                                    $Friday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Friday','-','-','-')";
                                                     $Friday=mysqli_query($mysqli, $Friday);
 
-                                                    $Saturday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Saturday','NULL','NULL','NULL')";
+                                                    $Saturday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Saturday','-','-','-')";
                                                     $Saturday=mysqli_query($mysqli, $Saturday);
 
-                                                    $Sunday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Sunday','NULL','NULL','NULL')";
+                                                    $Sunday="INSERT INTO `mess`(`hostel_id`, `admin_id`, `day`, `recipy_morning`, `recipy_noon`, `recipy_eve`) VALUES ('$hostel_id','$aid','Sunday','-','-','-')";
                                                     $Sunday=mysqli_query($mysqli, $Sunday);
-                                                    header('location:manage-mess.php');
+                                                   echo "<script>window.location.reload();</script>";
 
                                             } ?>
 									    </tbody>

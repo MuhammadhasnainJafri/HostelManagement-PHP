@@ -1,6 +1,6 @@
 <?php
 require_once("../includes/dbconn.php");
-if (isset($_POST['submit'])) {
+if (isset($_POST['username'])) {
     
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -23,7 +23,8 @@ if (isset($_POST['submit'])) {
         $phone = $_POST['phone'];
         $city = $_POST['city'];
 
-        $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`,`city`) VALUES ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone','$city')";
+        $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`,`city`) VALUES 
+        ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone','$city')";
 
 
 
@@ -38,6 +39,10 @@ if (isset($_POST['submit'])) {
                     $sql = "UPDATE `hostel_owner` SET `hostel_id`='$last_id' where `id`='$admin_id'";
                     $result = mysqli_query($mysqli, $sql);
                 }
+
+                $sql = "INSERT INTO `hostel_images`(`hostel_id`, `admin_id`, `image_url`, `title`, `brand`) VALUES 
+                ($last_id,'$admin_id','../hostel_images/125915pm121932pm083908pmDSC2341.jpg','Default image','brand')";
+                $result = mysqli_query($mysqli, $sql);
 
                 echo "<script>alert('hostel has been Registered!');</script>";
                 header("Location:../hostelOwner");

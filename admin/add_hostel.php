@@ -1,69 +1,53 @@
 <?php
 session_start();
 include('../includes/dbconn.php');
-if (isset($_POST['submit'])) {
-    $admin_id = $_POST['admin_id'];
-    $title = $_POST['title'];
-    $subtitle = $_POST['subtitle'];
-    $address = $_POST['address'];
-    $lat = $_POST['lat'];
-    $lng = $_POST['lng'];
+if (isset($_POST)) {
+    
+    $username = $_POST['username'];
     $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $city= $_POST['city'];
-    
-    $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`,`city`) VALUES ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone','$city')";
-    
-    
+    $phone_no = $_POST['phone_no'];
+    $address = $_POST['address'];
+    $hostel_id = NULL;
+    $password = $_POST['password'];
+    $password = md5($password);
+    $query = "INSERT into hostel_owner(`username`, `email`, `password`, `phone_no`, `address`) values('$username','$email','$password','$phone_no','$address')";
+    if (mysqli_query($mysqli, $query)) {
+
+        $last_id = $mysqli->insert_id;
+        $admin_id = $last_id;
+        $title = $_POST['title'];
+        $subtitle = $_POST['subtitle'];
+        $address = $_POST['address'];
+        $lat = $_POST['lat'];
+        $lng = $_POST['lng'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $city = $_POST['city'];
+
+        $query = "INSERT INTO `pm_hotel`(`admin_id`, `title`, `subtitle`, `address`, `lat`, `lng`, `email`, `phone`,`city`) VALUES ('$admin_id', '$title', '$subtitle', '$address', '$lat',' $lng', '$email', '$phone','$city')";
 
 
-$owner="Select * from hostel_owner where id='$admin_id'";
-$oresult=mysqli_query($mysqli, $owner);
-if($oresult)
-{
-    if($oresult->fetch_assoc()['hostel_id']==NULL){
-        if (mysqli_query($mysqli, $query)) {
-            $last_id = $mysqli->insert_id;
-    echo $last_id;
-        $sql="UPDATE `hostel_owner` SET `hostel_id`='$last_id' where `id`='$admin_id'";
-        $result=mysqli_query($mysqli,$sql);
-        }else{
-             
-            mysqli_error($mysqli);
-            
-        ?>
-        <script>
-    
-            alert('<?php 
-            mysqli_error($mysqli);
-            ?>');
-        </script>
-        
-        <?php 
-        
+
+
+        $owner = "Select * from hostel_owner where id='$admin_id'";
+        $oresult = mysqli_query($mysqli, $owner);
+        if ($oresult) {
+            if ($oresult->fetch_assoc()['hostel_id'] == NULL) {
+                if (mysqli_query($mysqli, $query)) {
+                    $last_id = $mysqli->insert_id;
+                    echo $last_id;
+                    $sql = "UPDATE `hostel_owner` SET `hostel_id`='$last_id' where `id`='$admin_id'";
+                    $result = mysqli_query($mysqli, $sql);
+                }
+                $sql = "INSERT INTO `hostel_images`(`hostel_id`, `admin_id`, `image_url`, `title`, `brand`) VALUES 
+                ($last_id,'$admin_id','../hostel_images/125915pm121932pm083908pmDSC2341.jpg','Default image','brand')";
+                $result = mysqli_query($mysqli, $sql);
+                echo "<script>alert('hostel has been Registered!');</script>";
+                header("Location:manage-hostel.php");
+            } 
         }
-     
-        echo "<script>alert('hostel has been Registered!');</script>";
-        header("Location:manage-hostel.php");
-
-
-
-
-
-    }else{
-
-header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
-
-
-
-
-
+        exit;
     }
-}    
-    exit;
-    
-    
-    
 }
 ?>
 
@@ -244,39 +228,7 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
                         
 
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-
-
-
-                                    <h4 class="card-title">Hostel Owner (<a href="add_owner.php" class="text-danger" style="font-size: 12px" >add new Owner</a>)</h4>
-                                    
-                                    <div class="form-group mb-4">
-                                        <select class="custom-select mr-sm-2" name="admin_id" required="required">
-                                        <?php 
-                                         $ret="SELECT * from hostel_owner;";
-                                         $stmt= $mysqli->prepare($ret) ;
-                                         $stmt->execute() ;//ok
-                                         $res=$stmt->get_result();
-                                         $cnt=1;
-                                         while($row=$res->fetch_object())
-                                             {
-                                        ?>
-                                            
-                                            <option value="<?php echo $row->id;?>"><?php echo $row->username;?></option>
-                                           
-
-                                            <?php 
-                                             }
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
+                    
 
 
 
@@ -288,7 +240,97 @@ header("Location:confirmchangeowner.php?query=".$query."&&admin_id=".$admin_id);
 
 
                     </div>
+                    <h3>Hosteller Details</h3>
+                    <div class="row">
 
+
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Username</h4>
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Enter Username" id="regno" class="form-control" required>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">email</h4>
+            <div class="form-group">
+                <input type="text" name="email" placeholder="Enter email" required class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Password</h4>
+            <div class="form-group">
+                <input type="password" name="password" id="password" placeholder="Enter Password" required="required" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Confirm Password</h4>
+            <div class="form-group">
+                <input type="password" name="cpassword" id="cpassword" placeholder="Enter Confirmation Password" required="required" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Phone Number</h4>
+            <div class="form-group">
+                <input type="text" name="phone_no" id="lname" placeholder="Enter Phone NUmner" required class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Address</h4>
+            <div class="form-group">
+                <input type="text" name="address" id="contact" placeholder="Your Address" required="required" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
 
                     <div class="form-actions">
                         <div class="text-center">

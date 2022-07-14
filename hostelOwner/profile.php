@@ -7,10 +7,10 @@
     if(isset($_POST['update'])){
         $email=$_POST['emailid'];
         $aid=$_SESSION['id'];
-        $udate=date('Y-m-d');
-        $query="UPDATE admin set email=?,updation_date=? where id=?";
+        
+        $query="UPDATE hostel_owner set email=? where id=?";
         $stmt = $mysqli->prepare($query);
-        $rc=$stmt->bind_param('ssi',$email,$udate,$aid);
+        $rc=$stmt->bind_param('si',$email,$aid);
         $stmt->execute();
         echo"<script>alert('Email id has been successfully updated');</script>";
     }
@@ -90,7 +90,7 @@
 
                     <?php	
                     $aid=$_SESSION['id'];
-                        $ret="SELECT * from admin where id=?";
+                        $ret="SELECT * from `hostel_owner` where id=?";
                             $stmt= $mysqli->prepare($ret) ;
                         $stmt->bind_param('i',$aid);
                         $stmt->execute() ;//ok
@@ -139,7 +139,6 @@
                             </div>
                         </div>
 
-                        <h6 class="card-subtitle"><code>Last Updated On: </code> <?php echo $row->updation_date;?> </h6>
 
                         <?php } ?>
 

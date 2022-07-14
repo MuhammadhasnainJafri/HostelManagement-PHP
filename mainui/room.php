@@ -381,7 +381,17 @@ $hostel = $result->fetch_object();
                     </div>
                     <div class="room_main-cards col-lg-4">
                         <div class="room_main-cards_card"style="width:100%" >
-                        <table id="zero_config" class="table table-striped table-hover table-bordered no-wrap">
+                      
+                                            <?php
+                                           
+                                            $ret = "SELECT * from hostel_prices where hostel_id='$id' ";
+                                            $stmt = $mysqli->prepare($ret);
+                                            //$stmt->bind_param('i',$aid);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            $cnt = 1;
+                                            if($res->num_rows > 0){?>
+  <table id="zero_config" class="table table-striped table-hover table-bordered no-wrap">
                                         <thead class="thead-dark">
                                             <tr>
                                                 
@@ -394,28 +404,29 @@ $hostel = $result->fetch_object();
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                           
-                                            $ret = "SELECT * from hostel_prices where hostel_id='$id' ";
-                                            $stmt = $mysqli->prepare($ret);
-                                            //$stmt->bind_param('i',$aid);
-                                            $stmt->execute(); //ok
-                                            $res = $stmt->get_result();
-                                            $cnt = 1;
+
+<?php
                                             while ($row = $res->fetch_object()) {
                                             ?>
                                                 <tr>
                                                     
                                                     <td><?php echo $row->seater; ?></td>
-                                                    <td><?php echo $row->price; ?></td>
+                                                    <td>RS <?php echo $row->price; ?></td>
                                                     
 
                                                 </tr>
                                             <?php
                                                 $cnt = $cnt + 1;
-                                            } ?>
+                                            }?>
                                         </tbody>
                                     </table>
+                                        
+                                        
+                                        
+                                   <?php     }else{
+                                                echo "<h3 class='d-inline'>Price  </h3><h5 class='float-right;d-inline'>RS-".$room->fees."</h5>";
+                                            } ?>
+                                        
 
 
                             
@@ -491,7 +502,7 @@ $hostel = $result->fetch_object();
 
                 <ul class="rooms_list d-md-flex flex-wrap">
                     <?php
-                    $ret = "SELECT * from pm_hotel limit 5;";
+                    $ret = "SELECT * from pm_hotel limit 3;";
                     $stmt = $mysqli->prepare($ret);
                     $stmt->execute(); //ok
                     $res = $stmt->get_result();

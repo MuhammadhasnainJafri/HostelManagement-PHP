@@ -86,7 +86,7 @@
                             </nav> -->
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success float-right m-auto"onclick="window.location.href='add_owner.php'">Add Owner</button>
+                    <!-- <button type="button" class="btn btn-success float-right m-auto"onclick="window.location.href='add_owner.php'">Add Owner</button> -->
                     
                 </div>
             </div>

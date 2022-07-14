@@ -85,7 +85,7 @@ include 'partials/header.php'
                     </div>
                     <ul class="rooms_list d-md-flex flex-wrap">
                         <?php 
-                        $ret="SELECT * from pm_hotel limit 5;";
+                        $ret="SELECT * from pm_hotel limit 3;";
                         $stmt= $mysqli->prepare($ret) ;
                         $stmt->execute() ;//ok
                         $res=$stmt->get_result();
