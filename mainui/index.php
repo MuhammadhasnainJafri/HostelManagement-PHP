@@ -1,5 +1,19 @@
-<?php 
+<?php
 require_once("../includes/dbconn.php");
+$ret = "SELECT pm_hotel.title,pm_hotel.lat,pm_hotel.lng,pm_hotel.id,pm_hotel.address,hostel_images.image_url from pm_hotel,hostel_images  where pm_hotel.id=hostel_images.hostel_id  and hostel_images.brand!=''";
+$stmt = $mysqli->prepare($ret);
+$stmt->execute(); //ok
+$res = $stmt->get_result();
+$cnt = 1;
+$locationarray = array();
+while ($row = $res->fetch_object()) {
+    $locationarray[] = $row;
+}
+
+$location = json_encode($locationarray);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +39,8 @@ include 'partials/header.php'
         <!-- homepage content start -->
         <main>
             <!-- hero section start -->
+
+           
             <section class="hero section">
                 <div class="container container--hero d-lg-flex align-items-center justify-content-between">
                     <div class="hero_main">
@@ -36,24 +52,23 @@ include 'partials/header.php'
                                 nunc eget lorem dolor sed
                             </p>
                         </div>
-                        <form class="booking" action="#" method="post" autocomplete="off" data-type="booking" data-aos="fade-up">
-                            
-                               
-                                
-                                        
+                  
+                        <button class="booking_btn btn theme-element theme-element--accent "
+                                onclick="window.location.href='registerHosteller.php'"
+                                >Register as Hosteller</button>        
                                                 
                                        
-                                <button class="booking_btn btn theme-element theme-element--accent " style="float: right" type="submit" 
+                                <button class="booking_btn btn theme-element theme-element--accent d-block mt-3"
                                 onclick="window.location.href='rooms.php'"
                                 >Book Hostel</button>
 
-                        </form>
+          
                     </div>
-                    <div class="hero_media" data-aos="zoom-in">
-                        <picture>
+                    <div class="hero_media" style="z-index:999" id="googleMap">
+                        <!-- <picture>
                             <source data-srcset="img/DSC2341.jpg" srcset="img/DSC2341.jpg" />
                             <img class="lazy" data-src="img/DSC2341.jpg" src="img/DSC2341.jpg" alt="media" />
-                        </picture>
+                        </picture> -->
                     </div>
                 </div>
             </section>
@@ -1081,8 +1096,193 @@ include 'partials/header.php'
         include 'partials/footer.php';
         ?>
        
-        <script src="js/common.min.js"></script>
-        <script src="js/index.min.js"></script>
+         <script src="js/common.min.js"></script> 
+         <script src="js/index.min.js"></script>
         <script src="js/gallery.min.js"></script>
+
+
+
+        
+    <script>
+        var locationdata = <?php echo $location; ?>;
+
+        function detectBrowser() {
+            var useragent = navigator.userAgent;
+            var mapdiv = document.getElementById("map");
+
+            if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1) {
+                mapdiv.style.width = '100%';
+                mapdiv.style.height = '100%';
+            } else {
+                mapdiv.style.width = '600px';
+                mapdiv.style.height = '800px';
+            }
+        }
+
+        var myLatLng;
+        var latit;
+        var longit;
+
+        function geoSuccess(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+
+            myLatLng = {
+                lat: latitude,
+                lng: longitude
+            };
+            var mapProp = {
+                // center: new google.maps.LatLng(latitude, longitude), // puts your current location at the centre of the map,
+                zoom: 8,
+                mapTypeId: 'roadmap',
+
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+
+            //call renderer to display directions
+            directionsDisplay.setMap(map);
+
+            var bounds = new google.maps.LatLngBounds();
+
+
+            let icon = {
+                url: 'img/location.png',
+                scaledSize: new google.maps.Size(50, 50)
+            }
+
+            var mymarker = new google.maps.Marker({
+
+                position: myLatLng,
+                map: map,
+                title: 'Your Location',
+                icon: icon
+
+            });
+
+
+
+            // Info Window Content
+            var infoWindowContent = [
+                ['<div class="info_content">' +
+                    '<h3>3fe</h3>' +
+                    '<p>32 Grand Canal Street Lower, Grand Canal Dock, Dublin 2</p>' +
+                    '<img src="images/3fe.jpg" width="200" height="200">' +
+                    '</div>'
+                ]
+            ];
+
+            // Display multiple markers on a map
+            var infoWindow = new google.maps.InfoWindow(),
+                marker, i = 0;
+
+
+            var z = 0;
+
+            for (x in locationdata) {
+                var position = new google.maps.LatLng(locationdata[x].lat, locationdata[x].lng);
+                bounds.extend(position);
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: locationdata[x].title,
+                    address: locationdata[x].address,
+                    mhostel_id: locationdata[x].id,
+                    mimage: locationdata[x].image_url
+
+                });
+
+                // Allow each marker to have an info window
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        console.info(marker);
+                        window.location.href="room.php?id=" + marker.mhostel_id;
+                    }
+                })(marker, i));
+
+                marker.addListener('click', function() {
+                    directionsService.route({
+                        // origin: document.getElementById('start').value,
+                        origin: myLatLng,
+
+                        // destination: marker.getPosition(),
+                        destination: {
+                            lat: latit,
+                            lng: longit
+                        },
+                        travelMode: 'DRIVING'
+                    }, function(response, status) {
+                        if (status === 'OK') {
+                            directionsDisplay.setDirections(response);
+                        } else {
+                            window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+
+                });
+                // Automatically center the map fitting all markers on the screen
+                // map.fitBounds(bounds);
+                map.setZoom(12);
+                map.setCenter(new google.maps.LatLng(latitude, longitude));
+
+            }
+
+            // Loop through our array of markers & place each one on the map
+
+        }
+
+        // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        //     directionsService.route({
+        //         // origin: document.getElementById('start').value,
+        //         origin: myLatLng,
+        //         destination: marker.getPosition(),
+        //         travelMode: 'DRIVING'
+        //     }, function(response, status) {
+        //         if (status === 'OK') {
+        //             console.log('all good');
+        //             directionsDisplay.setDirections(response);
+        //         } else {
+        //             window.alert('Directions request failed due to ' + status);
+        //         }
+        //     });
+        // }
+
+        function geoError() {
+            alert("Geocoder failed.");
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+                // alert("Geolocation is supported by this browser.");
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkdyai5-p_kXTroX-gSz_mz-xeQ8Ht1iY&callback=getLocation"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </body>
 </html>

@@ -30,7 +30,7 @@ $location = json_encode($locationarray);
 
     <link rel="stylesheet" href="css/about.min.css" />
     <link rel="stylesheet" href="css/custom.css" />
-    
+
 </head>
 
 <body>
@@ -81,7 +81,7 @@ $location = json_encode($locationarray);
 
     <script>
         var locationdata = <?php echo $location; ?>;
-   
+
         function detectBrowser() {
             var useragent = navigator.userAgent;
             var mapdiv = document.getElementById("map");
@@ -116,7 +116,7 @@ $location = json_encode($locationarray);
 
             };
             var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-           
+
             var directionsService = new google.maps.DirectionsService;
             var directionsDisplay = new google.maps.DirectionsRenderer;
 
@@ -124,22 +124,23 @@ $location = json_encode($locationarray);
             directionsDisplay.setMap(map);
 
             var bounds = new google.maps.LatLngBounds();
-           
-           
-let icon = {
-   url: 'img/location.png',
-}
+
+
+            let icon = {
+                url: 'img/location.png',
+                scaledSize: new google.maps.Size(50, 50)
+            }
 
             var mymarker = new google.maps.Marker({
 
                 position: myLatLng,
                 map: map,
                 title: 'Your Location',
-                icon:icon
-                
+                icon: icon
+
             });
-         
-           
+
+
 
             // Info Window Content
             var infoWindowContent = [
@@ -150,34 +151,37 @@ let icon = {
                     '</div>'
                 ]
             ];
-           
+
             // Display multiple markers on a map
             var infoWindow = new google.maps.InfoWindow(),
-                marker, i=0;
+                marker, i = 0;
 
 
-var z=0;
+            var z = 0;
 
-                for (x in locationdata) {
-                    var position = new google.maps.LatLng(locationdata[x].lat,locationdata[x].lng);
+            for (x in locationdata) {
+                var position = new google.maps.LatLng(locationdata[x].lat, locationdata[x].lng);
                 bounds.extend(position);
                 marker = new google.maps.Marker({
                     position: position,
                     map: map,
-                    title: locationdata[x].title
-                    
+                    title: locationdata[x].title,
+                    address: locationdata[x].address,
+                    mhostel_id: locationdata[x].id,
+                    mimage: locationdata[x].image_url
+
                 });
 
                 // Allow each marker to have an info window
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
                         console.info(marker);
-                        infoWindow.setContent('<div class="info_content"><a href="room.php?id='+locationdata[z].id+'">' +
-                    '<h3>'+locationdata[z].title+'</h3>' +
-                    '<p><b>Address: </b>'+locationdata[z].address+'</p>' +
-                    '<img src="'+locationdata[z].image_url+'" width="200" height="200">' +
-                    '<button class="learn-more" onclick="trackpath()"><span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">View Hostel</span></button></a>');
-                    z=z+1;
+                        infoWindow.setContent('<div class="info_content"><a href="room.php?id=' + marker.mhostel_id + '">' +
+                            '<h3>' + marker.title + '</h3>' +
+                            '<p><b>Address: </b>' + marker.address + '</p>' +
+                            '<img src="' + marker.mimage + '" width="200" height="200">' +
+                            '<button class="learn-more" onclick="trackpath()"><span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">View Hostel</span></button></a>');
+                        z = z + 1;
                         infoWindow.open(map, marker);
 
                         latit = marker.getPosition().lat();
@@ -209,13 +213,13 @@ var z=0;
                 });
                 // Automatically center the map fitting all markers on the screen
                 // map.fitBounds(bounds);
-                map.setZoom(16); 
+                map.setZoom(12);
                 map.setCenter(new google.maps.LatLng(latitude, longitude));
-       
-    }
+
+            }
 
             // Loop through our array of markers & place each one on the map
-           
+
         }
 
         // function calculateAndDisplayRoute(directionsService, directionsDisplay) {

@@ -92,7 +92,11 @@
                                     <button type="submit" name="login" class="btn btn-block btn-danger">LOGIN</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                   <a href="../index.php" class="text-danger">Go Back</a>
+                                   <!-- <a href="../index.php" class="text-danger">Go Back</a> -->
+                                   
+                                   <a href="../admin/index.php" class="text-danger">Go to Admin Panel</a><br>
+                                  
+                                
                                 </div>
                             </div>
                         </form>

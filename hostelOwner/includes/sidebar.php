@@ -34,6 +34,12 @@
         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="manage-bill.php"
         aria-expanded="false"><i class="fas fa-bed"></i><span
         class="hide-menu">Manage Bills</span></a></li>
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="other.php"
+        aria-expanded="false"><i class="fas fa-bed"></i><span
+        class="hide-menu">Others</span></a></li>
+        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="prices.php"
+        aria-expanded="false"><i class="fas fa-bed"></i><span
+        class="hide-menu">Price Plan</span></a></li>
 
        
                            

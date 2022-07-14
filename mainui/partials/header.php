@@ -44,31 +44,13 @@
                             <li class="header_nav-list_item">
                                 <a class="nav-item" href="index.php" data-page="home">Home</a>
                             </li>
-                          
-                            <li class="header_nav-list_item dropdown">
-                                <a
-                                    class="nav-link dropdown-toggle d-inline-flex align-items-center"
-                                    href="rooms.php"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#roomMenu"
-                                    aria-expanded="false"
-                                    aria-controls="roomMenu"
-                                    data-page="rooms"
-                                >
-                                    Hostel
-                                    <i class="icon-chevron_down--entypo icon"></i>
-                                </a>
-                                <div class="dropdown-menu collapse" id="roomMenu">
-                                    <ul class="dropdown-list">
-                                        <li class="list-item" data-main="true">
-                                            <a class="dropdown-item nav-item" data-page="rooms" href="rooms.php">Hostels</a>
-                                        </li>
-                                        <li class="list-item">
-                                            <a class="dropdown-item nav-item" data-page="room" href="nearby-hostel.php">Neary Hostel</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <li class="header_nav-list_item">
+                                <a class="nav-item" href="rooms.php" data-page="rooms">Hostels</a>
                             </li>
+                            <li class="header_nav-list_item">
+                                            <a class="nav-item" data-page="room" href="nearby-hostel.php">Neary Hostel</a>
+                            </li>
+                          
                               <li class="header_nav-list_item">
                                 <a class="nav-item" href="about.php" data-page="about">About</a>
                             </li>
@@ -80,7 +62,7 @@
                             <li class="header_nav-list_item dropdown">
                                 <a
                                     class="nav-link nav-link--contacts dropdown-toggle d-inline-flex align-items-center"
-                                    href="../login.php"
+                                    href="../hostelOwner"
                                     data-bs-toggle="collapse"
                                     data-bs-target="#contactsMenu"
                                     aria-expanded="false"
