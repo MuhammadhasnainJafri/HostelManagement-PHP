@@ -6,13 +6,14 @@
 
     if(isset($_POST['update'])){
         $email=$_POST['emailid'];
+        $address=$_POST['address'];
         $aid=$_SESSION['id'];
         
-        $query="UPDATE hostel_owner set email=? where id=?";
+        $query="UPDATE hostel_owner set email=?,address=? where id=?";
         $stmt = $mysqli->prepare($query);
-        $rc=$stmt->bind_param('si',$email,$aid);
+        $rc=$stmt->bind_param('ssi',$email,$address,$aid);
         $stmt->execute();
-        echo"<script>alert('Email id has been successfully updated');</script>";
+        echo"<script>alert('Data has been successfully updated');</script>";
     }
 
 ?>
@@ -131,9 +132,9 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Registered Account On</h4>
+                                    <h4 class="card-title">address</h4>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" value="<?php echo $row->reg_date;?>" disabled>
+                                            <input type="text" name="address" class="form-control" value="<?php echo $row->address;?>" >
                                         </div>
                                 </div>
                             </div>

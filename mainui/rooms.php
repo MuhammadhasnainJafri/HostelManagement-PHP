@@ -11,6 +11,7 @@ if (isset($_GET["rooms"])) {
 if (isset($_GET["message"])) {
     $messageErr = $_GET["message"];
     $messageErr = $messageErr;
+    // echo " <script>alert('There is no Hostel witin this area of search');window.location.href='rooms.php'</script>";
 }
 
 ?>
@@ -218,6 +219,12 @@ border-radius: 20px;" onclick="
             }
         }
     </script>
+    <?php 
+    if (isset($_GET["message"])) {
+      
+        echo ' <script>window.history.pushState({}, document.title, "/" + "HostelManagement-PHP/mainui/rooms.php");</script>';
+    }
+    ?>
 
 </body>
 

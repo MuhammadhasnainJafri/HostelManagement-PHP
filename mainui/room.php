@@ -379,6 +379,7 @@ $hostel = $result->fetch_object();
                                 </div>
                             </div>  -->
                     </div>
+                    
                     <div class="room_main-cards col-lg-4">
                         <div class="room_main-cards_card"style="width:100%" >
                       
@@ -472,7 +473,9 @@ $hostel = $result->fetch_object();
                                                                                                                                                                     ?>'">Book now</button>
 
                         </div>
-
+                        <div class="room_main-cards_card"style="width:100%;height:300px" id="map">
+                        
+                        </div></div>
                     </div>
                 </div>
 
@@ -673,6 +676,125 @@ $hostel = $result->fetch_object();
     </footer>
     <script src="js/common.min.js"></script>
     <script src="js/room.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+      
+
+        function detectBrowser() {
+            var useragent = navigator.userAgent;
+            var mapdiv = document.getElementById("map");
+
+            if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1) {
+                mapdiv.style.width = '100%';
+                mapdiv.style.height = '100%';
+            } else {
+                mapdiv.style.width = '600px';
+                mapdiv.style.height = '800px';
+            }
+        }
+
+        var myLatLng;
+        var latit;
+        var longit;
+
+        function geoSuccess(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+
+            myLatLng = {
+                lat: latitude,
+                lng: longitude
+            };
+            var mapProp = {
+                // center: new google.maps.LatLng(latitude, longitude), // puts your current location at the centre of the map,
+                zoom: 16,
+                mapTypeId: 'roadmap',
+
+            };
+            var map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+
+            //call renderer to display directions
+            directionsDisplay.setMap(map);
+
+            var bounds = new google.maps.LatLngBounds();
+
+
+            let icon = {
+                url: 'img/location.png',
+                scaledSize: new google.maps.Size(50, 50)
+            }
+
+            var mymarker = new google.maps.Marker({
+
+                position: myLatLng,
+                map: map,
+                title: 'Your Location',
+                icon: icon
+
+            });
+
+            directionsService.route({
+                        // origin: document.getElementById('start').value,
+                        origin: myLatLng,
+
+                        // destination: marker.getPosition(),
+                        destination: {
+                            lat: <?php 
+                            echo $hostel->lat 
+                            ?>,
+                            lng: <?php 
+                            echo $hostel->lng 
+                            ?>
+                        },
+                        travelMode: 'DRIVING'
+                    }, function(response, status) {
+                        if (status === 'OK') {
+                            directionsDisplay.setDirections(response);
+                        } else {
+                            window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+
+            
+
+                map.setZoom(20);
+                map.setCenter(new google.maps.LatLng(latitude, longitude));
+
+            
+
+            // Loop through our array of markers & place each one on the map
+
+        }
+
+    
+        function geoError() {
+            alert("Geocoder failed.");
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+                // alert("Geolocation is supported by this browser.");
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkdyai5-p_kXTroX-gSz_mz-xeQ8Ht1iY&callback=getLocation"></script>
+
+
 </body>
 
 </html>

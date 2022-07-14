@@ -35,7 +35,7 @@
         $rc=$stmt->bind_param('ssisssssssssssssi',$name,$emailid,$regno,$roomno,$foodstatus,$seater,$password,$contactno,$gender,$feespm,$active,$stayfrom,$gurname,$gurrelation,$gurcntno,$caddress,$hostel_id);
         
         $stmt->execute();
-        $query = "UPDATE `rooms` SET `occupied`=`occupied`+1 WHERE `room_no`='$roomNumber' AND `hostel_id`='$id'; ";
+        $query = "UPDATE `rooms` SET `occupied`=`occupied`+1 WHERE `room_no`='$roomno' AND `hostel_id`='$hostel_id'; ";
         mysqli_query($mysqli, $query);
         echo"<script>alert('Success: Booked!');</script>";
     }

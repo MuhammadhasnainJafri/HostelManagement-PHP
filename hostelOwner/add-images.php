@@ -29,10 +29,10 @@ if($count==0){
     if (isset($_POST["submit"])) {
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
+           
             $uploadOk = 1;
         } else {
-            echo "File is not an image.";
+            
             $uploadOk = 0;
         }
     }
@@ -69,6 +69,7 @@ if($count==0){
             $result = $mysqli->query($query);
             
             echo "<script>alert('Image has been added');</script>";
+            header('location:manage-Images.php');
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
